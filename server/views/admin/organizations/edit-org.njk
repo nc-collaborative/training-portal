@@ -1,0 +1,49 @@
+{% extends '_template.njk' %}
+
+{% from 'macros/input.njk' import input %}
+{% from 'macros/breadcrumb.njk' import breadcrumb %}
+
+{% block head %}
+  {% include 'partials/_ckEditorAssets.njk' %}
+{% endblock %}
+
+{% block body %}
+
+{{ breadcrumb([['Admin','/admin'], ['Orgs','/admin/orgs'], ['Edit']]) }}
+
+<div class="container">
+
+<p class="lead">Edit Organization</p>
+
+{% if didUpdate %}
+  <div id="didupdate" class="alert alert-success collapse"
+    style="float: right; margin: 1em;">
+    ✔︎ saved
+  </div>
+  <div class="clearfix"></div>
+  <script>flashCollapse('#didupdate');</script>
+{% endif %}
+
+<h1>{{ org.longName }}</h1>
+
+{% if form.error %}
+  <div class="alert alert-danger"><pre>{{ form.error | dump(2) }}</pre></div>
+{% endif %}
+
+<form action="/admin/orgs/{{ form.id }}/edit" method="post">
+
+  {{ input(name='longName', label='Name', required=true, form=form) }}
+  {{ input(name='name', label='Short Name', required=true, form=form) }}
+  {{ input(name='url', label='Website (URL)', type='url', form=form) }}
+  {{ input(name='description', label='Description', required=true, type='textarea', form=form, styles={'visibility': 'hidden'}) }}
+
+  <div class="d-flex justify-content-end">
+    <a href="/admin/orgs/{{ form.id if not 'new' }}" class="btn btn-secondary m-2">Cancel</a>
+    <button class="btn btn-primary m-2" type="submit">Save</button>
+  </div>
+</form>
+
+</div>{# /.container #}
+
+<script src="/scripts/admin/orgs/edit-org.js"></script>
+{% endblock %}

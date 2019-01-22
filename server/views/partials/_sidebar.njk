@@ -1,0 +1,88 @@
+<nav id="nav-menu" class="sidebar shadow-sm">
+  <div>
+    <img src="/static/img/hands-logo.png" style="height: 4rem; width: auto;"/>
+    <div class="h4"><em>Helping Hands<br/>Training Portal</em></div>
+  </div>
+  <hr/>
+  <ul class="nav d-flex flex-column flex-grow-1" style="flex-wrap: nowrap;">
+
+    {% if authUser and 'learner' in authUser.userRoles %}
+    <li class="nav-item">
+      <a class="nav-link" href="/learner/dashboard"><i data-feather="home"></i> Dashboard</a>
+    </li>
+    {% endif %}
+    <li class="nav-item">
+      <a class="nav-link" href="/about"><i data-feather="info"></i> About</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/trainings"><i data-feather="book-open"></i> Trainings</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/orgs"><i data-feather="share-2"></i> Organizations</a>
+    </li>
+
+    {% if authUser and 'admin' in authUser.userRoles %}
+    
+    <div class="sidebar-heading">Admin</div>
+    <li class="nav-item">
+      <a class="nav-link" href="/"><i data-feather="sliders"></i> Dashboard</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/admin/trainings"><i data-feather="book-open"></i> Trainings</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/admin/learners"><i data-feather="check-square"></i> Learners</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/admin/users"><i data-feather="users"></i> Users</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/admin/orgs"><i data-feather="share-2"></i> Organizations</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/admin/system"><i data-feather="settings"></i> System Settings</a>
+    </li>
+
+    {% endif %}
+
+    <div class="flex-grow-1"></div>
+
+    {% if authUser %}
+      <div class="sidebar-heading">{{ authUser.firstName }}</div>
+      <li class="nav-item"><a class="nav-link" href="/profile"><i data-feather="user"></i> My Profile</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" onclick="promptLogOut()"><i data-feather="log-out"></i> Log Out</a></li>
+    {% else %}
+      <li class="nav-item"><a class="nav-link" href="/login"><i data-feather="log-in"></i> Log In</a></li>
+    {% endif %}
+  </ul>
+</nav>
+
+{# Shown fixed on bottom of screen for small sizes #}
+<nav id="navbar-bottom" class="hidden-md navbar navbar-light bg-light">
+  <img src="/static/img/hands-logo.png" style="height: 1.5rem; width: auto;"/>
+  <button class="btn" aria-label="toggle menu" onclick="toggleNavMenu()"><i data-feather="menu"></i> Menu</button>
+</nav>
+
+<script>
+  function promptLogOut() {
+    swal({
+      text: 'Are you sure you want to log out?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Log out now',
+      confirmButtonColor: 'red',
+      cancelButtonText: 'Stay logged in',
+      reverseButtons: true,
+      focusCancel: true
+    })
+      .then(({dismiss}) => {
+        if(dismiss) return;
+        window.location = '/logout';
+      });
+  }
+
+  function toggleNavMenu() {
+    var menu = document.getElementById('nav-menu');
+    menu.classList.toggle('open');
+  }
+</script>

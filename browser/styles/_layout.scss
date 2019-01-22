@@ -1,0 +1,39 @@
+@media screen and (min-width: 768px) {
+  // Large / desktop styles
+
+  #navbar-bottom {
+    display: none;
+  }
+
+  main > div.container,
+  main > div.container-fluid {
+    padding: 1rem 2rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  // Small / mobile styles
+
+  nav.sidebar {
+    transform: translateX(-100%);
+    position: absolute;
+    transition: transform ease-in-out 0.25s;
+    z-index: 100;
+  }
+
+  nav.sidebar.open {
+    transform: translateX(0);
+  }
+
+  #navbar-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+  }
+}
+
+.card > .table:last-child {
+  margin-bottom: 0;
+}

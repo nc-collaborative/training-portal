@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>{% block title %}{{ NODE_ENV }} :: SoC Training Portal{% endblock %}</title>
+
+  <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/static/index.css"/>
+
+  {% if NODE_ENV == 'production' %}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  {% else %}
+    <script src="/static/jquery/jquery.min.js"></script>
+    <script src="/static/popper/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"></script>
+    <script src="/static/sweetalert2/sweetalert2.all.min.js"></script>
+  {% endif %}
+
+  {% block head %}
+  {% endblock %}
+</head>
+
+<body>
+
+{% include 'partials/_sidebar.njk' %}
+
+<main role="main">
+  {% if NODE_ENV == 'staging' and authUser %}
+    <div id="staging-warning" class="alert alert-warning">
+      test mode &middot; not for public use&emsp;<i data-feather="alert-triangle"></i>&emsp;system and data may be reset at any time
+    </div>
+  {% endif %}
+
+  {% if flash.length %}
+    <div id="flash-container">
+      {% for f in flash %}
+        <div class="alert alert-{{ flash.type }}">
+          {{ f.message | nl2br }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% block body %}
+    <h1>Not found</h1>
+  {% endblock %}
+</main>
+
+<script src="/static/feather-icons/feather.min.js"></script>
+<script>
+  feather.replace();
+</script>
+</body>
+</html>

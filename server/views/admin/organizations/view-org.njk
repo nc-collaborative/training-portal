@@ -1,0 +1,85 @@
+{% extends '_template.njk' %}
+
+{% from 'macros/breadcrumb.njk' import breadcrumb %}
+
+{% block title %}User: {{ user.firstName }} {{ user.lastName }}{% endblock %}
+
+{% block head %}
+<style>
+  table#orginfo {
+    width: auto;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+{{ breadcrumb([['Admin','/admin'], ['Organizations', '/admin/orgs']]) }}
+
+<div class="container">
+
+<p class="lead">Organization:</p>
+<h1>{{ org.longName }}</h1>
+
+{% if org.logoPath %}
+  
+{% endif %}
+
+<table id="orginfo" class="table table-sm">
+  <tr>
+    <th>short name</th>
+    <td>{{ org.name }}</td>
+  </tr>
+  <tr>
+    <th>website</th>
+    <td><code><a href="{{ org.url }}" target="_blank" rel="noopener">{{ org.url }}</a></code></td>
+  </tr>
+  <tr>
+    <th>logo</th>
+    <td>
+      {% if org.logoPath %}<img src="{{ org.logoPath }}" style="height: 6rem; width: auto;" />
+      {% else %}<em>none</em>
+      {% endif %}
+    </td>
+  </tr>
+</table>
+
+<h2>About</h2>
+
+<div class="p-2">
+  {{ org.description | safe }}
+</div>
+
+<div class="p-2 text-right">
+  <a href="./{{ org.id }}/edit" class="btn btn-primary">Edit</a>
+</div>
+
+<h2>Trainings</h2>
+
+{% if org.trainings.length == 0 %}
+  <p class="alert alert-info text-center">No trainings</p>
+{% else %}
+  <table id="trainings-table" class="table table-sm">
+    <thead>
+      <tr>
+        <th>Training</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for t in org.trainings %}
+      <tr>
+        <td><a href="/admin/trainings/{{ t.id }}">{{ t.title }}</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+</div>
+
+{# <script>
+  $(document).ready(() => {
+    $('#trainings-table').DataTable();
+  });
+</script> #}
+
+{% endblock %}

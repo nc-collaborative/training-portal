@@ -1,0 +1,57 @@
+{% extends '../_template.njk' %}
+
+{% block head %}
+  <link rel="stylesheet" href="/scripts/learner/take-training.css"/>
+  <script>
+    window.__hhState = {
+      training: {{ training | dump | safe }},
+      version: {{ training.versions[0] | dump | safe }}
+    };
+  </script>
+
+  <style>
+    #survey-container {
+      min-height: 100vh;
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+
+<p class="lead">Training Module</p>
+
+<h1 style="margin-top: 0;">{{ training.title }}</h1>
+
+<div class="alert alert-info">
+  <h2 class="h4 alert-heading">Instructions
+    <button type="button" class="close" data-toggle="collapse"
+      data-target="#instructions-body" aria-label="toggle show instructions">
+      <span aria-hidden="true">▼</span>
+    </button>
+  </h2>
+
+  <div id="instructions-body" class="collapse show">
+    <p>The training material is located below. Use the "next" and "previous"
+    buttons at the bottom of the screen to navigate pages of the training.</p>
+
+    <p>When you have answered all of the questions, press "Complete" on the last
+    page to submit your answers for grading.</p>
+
+    <p>You may leave without saving at any time by pressing the "Quit Training"
+    button.</p>
+  </div>
+</div>
+
+<button class="btn btn-warning float-right" onClick="__hhState.quitTraining()">Quit Training</button>
+<div class="clearfix"></div>
+
+</div>
+
+<div class="container" style="padding: 1em; margin-bottom: 3em;">
+  <div id="survey-container"></div>
+</div>
+
+<script defer src="/scripts/learner/take-training.js"></script>
+{% endblock %}

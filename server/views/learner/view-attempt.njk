@@ -1,0 +1,48 @@
+{% extends '_template.njk' %}
+
+{% block head %}
+  {% include 'partials/_surveyTakerAssets.njk' %}
+
+  <script>
+    window.training = {{ training | dump | safe }};
+    window.version = {{ version | dump | safe }};
+    window.attempt = {{ attempt | dump | safe }};
+  </script>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+
+  <h1>Your Results <br><small class="text-muted"><em>Training</em>: <a href="/trainings/{{ training.id }}">{{ training.title }}</a></small></h1>
+  <p class="lead">attempt #&thinsp;{{ attemptNo }} of {{ attempts.length }}</p>
+  <p><i data-feather="calendar"></i> Taken at {{ attempt.createdOn | date }}</p>
+
+  <p class="display-4">Grade: {{ attempt.grade }} <small>&nbsp;%</small></p>
+
+  {% if attempt.grade >= training.passPercent %}
+    <p><span class="badge badge-success">PASS</span></p>
+  {% else %}
+    <p><span class="badge badge-secondary">NOT PASSING</span></p>
+  {% endif %}
+
+  <p class="alert alert-info">A copy of the training with your recorded answers is provided below for your
+  reference.</p>
+
+  <div id="survey" class="hh-survey-container"></div>
+
+</div>
+
+<script>
+
+  window.addEventListener('DOMContentLoaded', () => {
+    let survey = new Survey.Model(version.content);
+
+    survey.mode = 'display';
+    survey.data = attempt.answer;
+
+    $('#survey').Survey({ model: survey });
+  });
+
+</script>
+
+{% endblock body %}

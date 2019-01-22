@@ -1,0 +1,9 @@
+{% macro badge(text, type) %}
+  {% if not type %}
+    {% if text == 'active' %}{% set type = 'light' %}{% endif %}
+    {% if text == 'draft' %}{% set type = 'info' %}{% endif %}
+    {% if text == 'pass' %}{% set type = 'success' %}{% endif %}
+    {% if text == 'retired' %}{% set type = 'danger' %}{% endif %}
+  {% endif %}
+  <span class="badge {{ ('badge-' + type) if type }}">{{ text }}</span>
+{% endmacro %}

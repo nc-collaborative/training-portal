@@ -1,0 +1,115 @@
+{% extends '_template.njk' %}
+
+{% from 'macros/input.njk' import input %}
+{% from 'macros/breadcrumb.njk' import breadcrumb %}
+
+{% block head %}
+<style>
+  table._training-table {
+    width: auto;
+  }
+
+  table._training-table th:first-child {
+    text-align: right;
+  }
+
+  .training-long-description {
+    padding: 1em;
+    background: hsl(0, 0%, 90%);
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+
+{{ breadcrumb([['Admin','/admin'], ['Trainings','/admin/trainings'], ['View']]) }}
+
+<div class="container">
+
+<p class="lead">Training:</p>
+
+<h1>{{ training.title }}</h1>
+
+{% if training.status == 'draft' %}
+  <div class="alert alert-info">
+    <p>This training is in DRAFT mode and is not visible to learners. To publish this training, choose "publish" on an available content revision.</p>
+  </div>
+{% elif training.status == 'retired' %}
+  <div class="alert alert-warning">
+    <p>This training has been retired and is no longer visible to new learners.</p>
+    <p>Learners who have taken the training are still able to review their past attempts.</p>
+  </div>
+{% endif %}
+
+<table class="table table-sm _training-table">
+  <tr><th>status</th><td>{{ training.status }}</td></tr>
+  <tr><th>hours</th><td>{{ training.hours }}</td></tr>
+  <tr><th>graded</th><td>{{ 'yes' if training.isGraded else 'no' }}</td></tr>
+  {% if training.isGraded %}<tr><th>passing grade</th><td>{{ training.passPercent }}&thinsp;%</td></tr>{% endif %}
+  <tr><th>short description</th><td>{{ training.shortDescription | default('<em>none</em>' | safe, true) }}</td></tr>
+  <tr><th>author</th><td>{{ training.author | default('<em>none</em>' | safe) }}</td></tr>
+  <tr><th>organization</th><td>{{ training.organization | default('<em>none</em>' | safe) }}</td></tr>
+</table>
+
+<p><strong>long description:</strong></p>
+<div class="training-long-description">{{ (training.longDescription or '<em>none</em>') | safe }}</div>
+
+<p class="text-right p-2">
+  <a href="./{{ training.id }}/edit" class="btn btn-sm btn-primary"><i data-feather="edit-2"></i> Edit</a>
+<p>
+
+</div>
+
+<div class="container-fluid">
+
+<h2>Content Revisions</h2>
+
+<p class="alert alert-info">Trainings may have one content revision published at
+a time. When learners start a new attempt, they see the version that is
+currently published. Reviewing a past attempt shows the answers given with the
+content at the time it was taken.</p>
+
+{% if training.versions.length %}
+
+<div class="card">
+<table class="table table-striped">
+  <thead>
+    <tr><th>id #</th><th></th><th>Updated</th><th>Created</th><th># of attempts</th></tr>
+  </thead>
+  <tbody>
+  {% for v in training.versions %}
+    <tr>
+      <td>{{ v.id }}</td>
+      <td>{% if v.status == 'active' %}<span class="badge badge-success">published</span>{% endif %}</td>
+      <td>{{ v.updatedOn | date }}</td>
+      <td>{{ v.createdOn | date }}</td>
+      <td>{{ v.attempts.length }}</td>
+      {% if training.status != 'retired' %}
+        <td><a href="./{{ training.id }}/versions/{{ v.id }}/edit">{{ 'Edit' if v.attempts.length == 0 else 'View'}}</a></td>
+        <td><a href="javascript:confirmCopy({{ training.id}}, {{ v.id }});">Copy</a></td>
+      {% endif %}
+
+      {% if v.status != 'active' %}
+        <td><a href="javascript:confirmPublish({{ training.id }}, {{ v.id }});">Publish</a></td>
+      {% else %}
+        <td><a href="javascript:confirmUnpublish({{ training.id }}, {{ v.id }});">Unpublish</a></td>
+      {% endif %}
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+
+{% else %}
+  <div class="card">
+    <div class="card-body">
+      This training has no content.
+      <a href="./add-content" class="card-link" style="float: right;">Add content</a>
+    </div>
+  </div>
+{% endif %}
+
+</div>
+
+<script defer src="/scripts/admin/trainings/view-training.js"></script>
+{% endblock %}

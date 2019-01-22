@@ -1,0 +1,28 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended"],
+  "jsRules": {},
+  "rules": {
+    "arrow-parens": false,
+    "curly": [true, "ignore-same-line"],
+    "interface-name": false,
+    "member-access": false,
+    "no-console": { "severity": "warn" },
+    "no-shadowed-variable": { "severity": "warn" },
+    "no-unused-variable": {
+      "severity": "warn",
+      "options": [{ "ignore-pattern": "^type$" }]
+    },
+    "object-literal-sort-keys": false,
+    "only-arrow-functions": false,
+    "ordered-imports": true,
+    "prefer-const": { "severity": "warn" },
+    "quotemark": [true, "single", "avoid-escape"],
+    "triple-equals": false,
+    "variable-name": false
+  },
+  "rulesDirectory": [],
+  "linterOptions": {
+    "exclude": ["./src-browser/lib"]
+  }
+}

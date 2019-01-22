@@ -1,0 +1,37 @@
+{% extends '_template.njk' %}
+
+{% block head %}
+<style>
+  .card-img-top {
+    width: 15rem;
+    height: 10rem;
+    object-fit: contain;
+  }
+
+  .org-container > * {
+    max-width: 15rem;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+<h1>Affiliated Organizations</h1>
+
+<div class="d-flex org-container">
+  {% for o in orgs %}
+    <div class="card m-2">
+      {% if o.logoPath %}<img src="{{ o.logoPath }}" class="card-img-top" alt="organization logo"/>{% endif %}
+      <div class="card-body">
+        <div class="h5 card-title">{{ o.name }}</div>
+        <a href="/orgs/{{ o.id }}" class="card-link">view</a>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+</div>{# /.container #}
+
+{% endblock %}

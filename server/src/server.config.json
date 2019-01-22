@@ -1,0 +1,22 @@
+{
+  "origin": "https://collab.test",
+  "host": "collab.test",
+  "port": 3000,
+  "database": {
+    "host": "localhost",
+    "port": 3306,
+    "database": "hhands",
+    "username": "root",
+    "password": "root"
+  },
+  "jwtSecret": "thecollab",
+  "bcryptHashRounds": 10,
+  "saltRounds": 12,
+  "defaultDateFormat": "h:mma MMM. Do YYYY",
+  "smtp": {
+    "host": "localhost",
+    "port": 1025,
+    "username": null,
+    "password": null
+  }
+}

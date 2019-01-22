@@ -1,0 +1,85 @@
+{% extends '../_template.njk' %}
+
+{# {% from '../macros/breadcrumb.njk' import breadcrumb %} #}
+
+{% block head %}
+<style>
+  @supports(display: grid) {
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+      grid-gap: 1rem;
+    }
+  }
+
+  h2 {
+    margin-top: 1em;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+
+<h1>Dashboard</h1>
+
+{% if incompleteTrainings.length %}
+  <h2>In-Progress Trainings</h2>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th>Training</th>
+        <th colspan="2">Last Saved</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in incompleteTrainings %}
+      <tr>
+        <td>{{ t.title }}</td>
+        <td>{{ t.lastDate | date }}</td>
+        <td><a href="/trainings/{{ t.id }}/take?aid={{ t.lastAttempt.id }}">continue</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+<h2>Completed Trainings</h2>
+
+{% if not completeTrainings.length %}
+
+  <div class="card">
+    <div class="card-body">
+      <span>You have not yet completed any trainings.</span>
+      <span class="float-right"><a href="/trainings">Browse</a></span>
+    </div>
+  </div>
+
+{% else %}
+
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th>Training</th>
+        <th>Date</th>
+        <th style="text-align: right;">Grade</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in completeTrainings %}
+      <tr>
+        <td>{{ t.title }}</td>
+        <td>{{ t.lastAttempt.updatedOn | date }}</td>
+        <td style="text-align: right;">{{ t.lastAttempt.grade }}%</td>
+        <td><a href="/trainings/{{ t.id }}">view</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endif %}
+
+</div>
+{% endblock %}

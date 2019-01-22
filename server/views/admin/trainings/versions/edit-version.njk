@@ -1,0 +1,42 @@
+{% extends '_template.njk' %}
+
+{% from 'macros/input.njk' import input %}
+{% from 'macros/breadcrumb.njk' import breadcrumb %}
+
+{% block head %}
+  {% include 'partials/_surveyBuilderAssets.njk' %}
+{% endblock %}
+
+{% block body %}
+
+{% set training = version.training %}
+
+{{ breadcrumb([['Admin','/admin'], ['Trainings','/admin/trainings'], [training.title, '/admin/trainings/' + training.id], ['Content']]) }}
+
+<div class="container">
+
+<p class="lead">Edit Training Content</p>
+
+<h1>{{ training.title }}</h1>
+<p class="lead">content version #{{ version.id }}</p>
+<p>updated {{ version.updatedOn | date }}</p>
+
+{% if not canEdit %}
+  <div class="alert alert-warning">This version cannot be edited.</div>
+{% endif %}
+
+
+</div>
+
+<div id="survey-builder">
+  <p style="text-align: center;">loading...</p>
+</div>
+
+<script>
+  window.__hhState = {
+    version: {{ version | dump | safe }},
+    training: {{ training | dump | safe }}
+  };
+</script>
+<script async src="/scripts/admin/trainings/versions/edit-version.js"></script>
+{% endblock %}

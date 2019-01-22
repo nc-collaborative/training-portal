@@ -1,0 +1,114 @@
+html {
+  font-family: sans-serif;
+
+  box-sizing: border-box;
+
+  * {
+    box-sizing: inherit;
+  }
+
+  --primary: $color-primary;
+  --secondary: $color-secondary;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+p:only-child {
+  margin: 0;
+}
+
+pre {
+  padding: 1em;
+  background: var(--light);
+  color: var(--gray);
+  margin: 1em 0;
+  border: 1pt dashed red;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 1rem;
+}
+
+h1 {
+  margin: 0.5em 0;
+}
+
+.container,
+.container-fluid {
+  & > h1:first-child {
+    margin-top: 0;
+  }
+}
+
+nav.sidebar {
+  height: 100vh;
+  flex: none;
+  overflow-y: auto;
+  position: sticky;
+  top: 0;
+
+  background: var(--light);
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 1rem;
+
+  a.nav-link {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+main {
+  flex-grow: 1;
+}
+
+.nav-crumb {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.sidebar-heading {
+  margin-top: 1.5em;
+  font-weight: bold;
+
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-left: -0.5rem;
+  border-bottom: 1pt solid grey;
+}
+
+#staging-warning {
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  padding: 0.5rem;
+  margin: 0;
+
+  font-variant: small-caps;
+  text-align: center;
+  border-radius: 0;
+  border-bottom: 1pt solid currentColor;
+}
+
+code:not(.error) {
+  color: inherit;
+}
+
+.badge {
+  font-weight: normal;
+  font-variant: small-caps;
+}

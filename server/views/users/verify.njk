@@ -1,0 +1,23 @@
+{% extends '_template.njk' %}
+
+{% block body %}
+<div class="container">
+
+{% if success %}
+
+  <div class="alert alert-success text-center">
+    <i data-feather="check"></i> Your email address has been verified.
+  </div>
+
+  <p class="text-center">You may now proceed to <a href="/login">log in</a>.</p>
+
+{% else %}
+
+  <div class="alert alert-warning text-center">
+    Sorry, there was a problem verifying your email address.
+  </div>
+
+{% endif %}
+
+</div>
+{% endblock %}

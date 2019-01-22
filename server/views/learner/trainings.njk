@@ -1,0 +1,39 @@
+{% extends '../_template.njk' %}
+
+{% block head %}
+<style>
+  @supports(display: grid) {
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+      grid-gap: 1rem;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+
+<h1>Training Modules</h1>
+
+<div class="card-container">
+
+{% for t in trainings %}
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">{{ t.title }}</h5>
+      <p class="card-text">{{ t.shortDescription }}</p>
+    </div>
+    <div class="card-footer d-flex">
+      {% if t.hours %}<span class="text-muted">{{ t.hours }} credit hour{{ 's' if t.hours > 1 }}</span>{% endif %}
+      <a href="/trainings/{{ t.id }}" class="ml-auto">View</a>
+    </div>
+  </div>
+{% endfor %}
+
+</div>
+
+</div>
+{% endblock %}

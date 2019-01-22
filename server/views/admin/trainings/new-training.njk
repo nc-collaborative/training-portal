@@ -1,0 +1,22 @@
+{% extends '_template.njk' %}
+
+{% from 'macros/input.njk' import input %}
+
+{% block body %}
+<div class="container">
+
+<h1>New Training</h1>
+
+<p>&nbsp;</p>
+
+<form action="/admin/trainings/new" method="post">
+
+  {{ input(name='title', label='Title', required=true, form=form) }}
+  {{ input(name='description', label='Description', required=true, type='textarea', form=form) }}
+  {{ input(name='hours', type='number', label='hours', form=form, attrs={min:0}) }}
+
+  <button class="btn btn-primary" type="submit">Create</button>
+</form>
+
+</div>
+{% endblock %}

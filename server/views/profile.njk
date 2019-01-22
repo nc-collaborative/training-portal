@@ -1,0 +1,45 @@
+{% extends '_template.njk' %}
+{% block body %}
+<div class="container">
+
+<p class="lead"><i data-feather="user"></i> My Profile</p>
+
+
+
+{% set u = user %}
+
+<h1>{{ u.firstName }} {{ u.lastName }}</h1>
+
+<dl>
+  <dt>email</dt>
+  <dd><code>{{ u.email }}</code></dd>
+</dl>
+
+<h2>Demographics</h2>
+
+<dl>
+  <dt>County</dt>
+  <dd>{{ u.county.name }}</dd>
+
+  {% if u.gender %}
+  <dt>Gender</dt>
+  <dd>{{ u.gender }}</dd>
+  {% endif %}
+</dl>
+
+<h2>My Trainings</h2>
+
+<div class="trainings-container card">
+  <div class="card-body">
+  {% if not trainings.length %}
+    <p>You have not yet completed any trainings.</p>
+  {% endif %}
+
+  {% for training in trainings %}
+
+  {% endfor %}
+  </div>
+</div>
+
+</div>
+{% endblock %}

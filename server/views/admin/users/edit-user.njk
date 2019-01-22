@@ -1,0 +1,46 @@
+{% extends '_template.njk' %}
+
+{% from 'macros/input.njk' import input %}
+{% from 'macros/breadcrumb.njk' import breadcrumb %}
+
+{% block head %}
+  {% include 'partials/_ckEditorAssets.njk' %}
+{% endblock %}
+
+{% block body %}
+
+{{ breadcrumb([['Admin','/admin'], ['Users','/admin/users'], ['Edit']]) }}
+
+<div class="container">
+
+<h1>{{ 'New' if user.id == 'new' else 'Edit' }} User</h1>
+
+{% if didUpdate %}
+  <div id="didupdate" class="alert alert-success collapse"
+    style="float: right; margin: 1em;">
+    ✔︎ saved
+  </div>
+  <div class="clearfix"></div>
+  <script>flashCollapse('#didupdate');</script>
+{% endif %}
+
+{% if form.error %}
+  <div class="alert alert-danger"><pre>{{ form.error | dump(2) }}</pre></div>
+{% endif %}
+
+<form action="/admin/users/{{ form.id }}/edit" method="post">
+
+  {{ input(name='firstName', label='First Name', required=true, form=form, attrs={maxlength: 255}) }}
+  {{ input(name='lastName', label='Last Name', required=true, form=form, attrs={maxlength: 255}) }}
+  {{ input(name='email', label='Email', type='email', required=true, form=form, attrs={maxlength: 255}) }}
+  {{ input(name='countyId', label='County', type='select', options=counties, form=form, value=form.county.id) }}
+
+  <div class="d-flex justify-content-end">
+    <a href="/admin/users/{{ form.id if not 'new' }}" class="btn btn-secondary m-2">Cancel</a>
+    <button class="btn btn-primary m-2" type="submit">{{ 'Create' if form.id == 'new' else 'Save' }}</button>
+  </div>
+</form>
+
+</div>{# /.container #}
+
+{% endblock %}

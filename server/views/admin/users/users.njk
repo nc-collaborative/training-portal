@@ -1,0 +1,48 @@
+{% extends '_template.njk' %}
+
+{# {% from 'macros/input.njk' import input %} #}
+{% from 'macros/breadcrumb.njk' import breadcrumb %}
+
+{% block head %}
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css"/>
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
+{% endblock %}
+
+{% block body %}
+{{ breadcrumb([['Admin','/admin'], ['Users']]) }}
+
+<div class="container">
+
+<h1>Users</h1>
+
+<table id="user-table" class="table table-sm">
+  <thead>
+    <tr><th>Name</th><th>County</th><th>Roles</th></tr>
+  </thead>
+  <tbody>
+  {% for u in users %}
+    <tr>
+      <td><a href="/admin/users/{{ u.id }}">{{ u.lastName }}, {{ u.firstName }}</a></td>
+      <td>{{ u.county.name | default('&mdash;' | safe) }}</td>
+      <td>
+        {% if u.status == 'unverified' %}<span class="badge badge-warning">unverified</span>{% endif %}
+        {% for r in u.userRoles %}<span class="badge badge-secondary">{{ r.name }}</span>{% endfor %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<div class="text-center m-2">
+  <a href="/admin/users/new/edit" class="btn btn-primary">Create New</a>
+</div>
+
+</div>
+
+<script>
+  $(document).ready(() => {
+    $('#user-table').DataTable();
+  });
+</script>
+
+{% endblock %}

@@ -1,0 +1,71 @@
+// .sv_p_root {
+//   .svd_question {
+//     margin: 1rem;
+//     padding: 1rem;
+//     width: calc(100% - 2rem) !important;
+//     font-size: 1rem !important;
+
+//     &:not(.svd_q_selected) {
+//       border: 1pt dashed grey;
+//     }
+//   }
+// }
+
+.svd_questions_editor {
+  padding-top: 0 !important;
+}
+
+.sv_progress_bar {
+  color: white;
+
+  & span {
+    padding-left: 1em;
+  }
+}
+
+.svd_content {
+  padding: 1rem !important;
+
+  .svd_toolbox {
+    padding: 0 !important;
+  }
+
+  .svd_question {
+    & > div:nth-child(2) {
+      padding: 1rem !important;
+    }
+  }
+}
+
+.svd_container {
+  .modal-dialog {
+    // max-width: none !important;
+    // width: 90vw;
+    // height: 90vh;
+
+    .modal-content {
+      height: 100%;
+
+      .modal-header {
+        button.close {
+          margin: -1rem;
+          padding: 1rem !important;
+          opacity: unset !important;
+        }
+      }
+
+      .modal-body {
+        // max-height: unset;
+      }
+    }
+  }
+}
+
+.cke_editable {
+  font-size: 1rem;
+}
+
+// survey preview mode
+#surveyjsExample .sv_p_root {
+  padding: 1rem !important;
+}

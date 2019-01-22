@@ -1,0 +1,65 @@
+{% extends '_template.njk' %}
+
+{% block head %}
+<style>
+  form {
+    max-width: 45em;
+  }
+
+  @supports(display: grid) {
+    .form-group {
+      display: contents;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: max-content minmax(20em, 1fr);
+      align-items: baseline;
+      grid-gap: 1em;
+    }
+
+    label {
+      justify-self: end;
+    }
+
+    .invalid-feedback {
+      grid-column: 2/-1;
+      margin-top: -1em;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+
+<h1>Log In</h1>
+
+{% if needVerifyEmail %}
+  <div class="alert alert-warning" role="alert">
+    Your email address is not yet verified. Please check your email for a verification link.
+  </div>
+{% endif %}
+
+{% if form.errors %}
+  <div class="alert alert-danger" role="alert">
+    Your email and/or password were incorrect.
+  </div>
+{% endif %}
+
+<form method="post" action="/login{{ '?redirect=' + (redirect | urlencode) if redirect }}">
+  <div class="form-group">
+    <label for="email">Email address</label>
+    <input type="email" required autofocus class="form-control" id="email" name="email" value="{{ form.email }}">
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input name="password" required type="password" class="form-control" id="password">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<p>&nbsp;</p>
+<p>or <a href="/register">register a new account</a></p>
+
+</div>
+{% endblock %}

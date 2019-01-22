@@ -1,0 +1,35 @@
+.sv_body {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+
+  .sv_p_root {
+    font-size: 1rem !important;
+
+    ul li {
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
+    }
+
+    .sv_q {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+  }
+}
+
+.sv_main {
+  .sv_container {
+    color: black !important;
+  }
+
+  button,
+  input[type='button'] {
+    font-size: 1rem !important;
+  }
+}
+
+.hh-survey-container {
+  border: 1pt solid lightgrey;
+  padding: 0 1em;
+  margin: 2rem 0;
+}

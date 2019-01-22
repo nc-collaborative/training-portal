@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "allowJs": true,
+    "typeRoots": ["./src/@types", "./node_modules/@types"],
+
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+
+    "emitDecoratorMetadata": true,
+    "alwaysStrict": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "strict": true,
+    "strictPropertyInitialization": false,
+
+    "pretty": true,
+    "sourceMap": true,
+
+    "baseUrl": "./src",
+    "paths": {
+      "models/*": ["models/*"]
+    },
+
+    "outDir": "./dist"
+  },
+  "include": ["./src"]
+}

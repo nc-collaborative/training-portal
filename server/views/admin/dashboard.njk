@@ -1,0 +1,22 @@
+{% extends '_template.njk' %}
+{% block body %}
+
+<div class="container-fluid">
+  <h1>Admin Dashboard</h1>
+</div>
+
+<div class="container">
+
+<table class="table h2">
+  <tr>
+    <td><a href="/admin/trainings">Trainings</a></td>
+    <td>{{ counts.trainings }}</td>
+  </tr>
+  <tr>
+    <td><a href="/admin/learners">Learners</a></td>
+    <td>{{ counts.learners }}</td>
+  </tr>
+</table>
+
+</div>
+{% endblock %}

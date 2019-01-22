@@ -1,0 +1,76 @@
+{% extends '_template.njk' %}
+
+{# {% from 'macros/input.njk' import input %} #}
+{% from 'macros/breadcrumb.njk' import breadcrumb %}
+
+{% block title %}User: {{ user.firstName }} {{ user.lastName }}{% endblock %}
+
+{% block head %}
+<style>
+  table#userinfo {
+    width: auto;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+{{ breadcrumb([['Admin','/admin'], ['Users', '/admin/users'], ['User']]) }}
+
+<div class="container">
+
+<h1>{{ user.firstName }} {{ user.lastName }}</h1>
+
+<table id="userinfo" class="table table-sm">
+  <tr>
+    <th>county</th>
+    <td>{{ user.county.name }}</td>
+  </tr>
+  <tr>
+    <th>email</th>
+    <td>
+      <code>{{ user.email }}</code>
+      {% if user.status == 'unverified' %} <span class="badge badge-warning">unverified</span>{% endif %}
+    </td>
+  </tr>
+</table>
+
+{% if user.status == 'unverified' %}
+  <div class="alert alert-warning text-center">
+    <p>This user’s email address is not yet verified.</p>
+    <p><btn onclick="javascript:reverify({{ user.id }});" class="btn btn-warning">re-send verification email</a></p>
+  </div>
+{% endif %}
+
+<div class="m-2 text-right">
+  <a href="./{{ user.id }}/edit" class="btn btn-primary">Edit</a>
+</div>
+
+<h2>Training Attempts</h2>
+
+{% if user.attempts.length == 0 %}
+  <p class="alert alert-info text-center">No training attempts</p>
+{% else %}
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th>Training</th><th>Date</th><th>Grade</th><th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for a in user.attempts %}
+      <tr>
+        <td>{{ a.trainingVersion.training.title }}</td>
+        <td>{{ a.updatedOn | date }}</td>
+        <td>{{ a.grade | default('n/a') }}</td>
+        <td><a href="#">review</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+</div>
+
+<script defer src="/scripts/admin/users/view-user.js"></script>
+
+{% endblock %}

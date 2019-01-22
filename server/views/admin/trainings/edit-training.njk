@@ -1,0 +1,51 @@
+{% extends '_template.njk' %}
+
+{% from 'macros/input.njk' import input %}
+{% from 'macros/breadcrumb.njk' import breadcrumb %}
+
+{% block head %}
+  {% include 'partials/_ckEditorAssets.njk' %}
+{% endblock %}
+
+{% block body %}
+
+{{ breadcrumb([['Admin','/admin'], ['Trainings','/admin/trainings'], ['Edit']]) }}
+
+<div class="container">
+
+<p class="lead">Edit Training
+{% if didUpdate %}
+  <div id="didupdate" class="alert alert-success collapse"
+    style="float: right; margin: 1em;">
+    ✔︎ training saved
+  </div>
+  <div class="clearfix"></div>
+  <script>flashCollapse('#didupdate');</script>
+{% endif %}
+</p>
+
+<h1>{{ training.title }}</h1>
+
+{% if form.error %}
+  <div class="alert alert-danger"><pre>{{ form.error | dump(2) }}</pre></div>
+{% endif %}
+
+<form action="/admin/trainings/{{ form.id }}/edit" method="post">
+
+  {{ input(name='title', label='Title', required=true, form=form) }}
+  {{ input(name='hours', label='Hours', type='number', form=form, attrs={min:0}) }}
+  {{ input(name='isGraded', label='Graded', type='checkbox', form=form) }}
+  {{ input(name='passPercent', label='Passing %', type='number', attrs={min:0, max:100}, form=form, style={'visibility': 'hidden'}) }}
+  {{ input(name='shortDescription', label='Short Description', type='textarea', form=form) }}
+  {{ input(name='longDescription', label='Long Description', required=true, type='textarea', form=form, styles={'visibility': 'hidden'}) }}
+
+  <div class="d-flex justify-content-end">
+    <a href="/admin/trainings/{{ form.id }}" class="btn btn-secondary m-2">Cancel</a>
+    <button class="btn btn-primary m-2" type="submit">Save</button>
+  </div>
+</form>
+
+</div>{# /.container #}
+
+<script src="/scripts/admin/trainings/new-edit.js"></script>
+{% endblock %}

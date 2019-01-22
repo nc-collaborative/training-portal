@@ -1,0 +1,16 @@
+{% extends '_template.njk' %}
+{% block body %}
+<div class="container">
+
+<h2><code><i data-feather="alert-circle"></i> 500</code></h2>
+
+<p class="alert alert-danger">Sorry, our server encountered an unexpected error.</p>
+
+{% if NODE_ENV != 'production' %}
+  <code>Debug information:</code>
+  <pre>{{ err.stack }}</pre>
+{% endif %}
+
+</div>
+
+{% endblock %}

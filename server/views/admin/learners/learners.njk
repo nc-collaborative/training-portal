@@ -1,0 +1,41 @@
+{% extends '_template.njk' %}
+
+{# {% from 'macros/input.njk' import input %} #}
+{% from 'macros/breadcrumb.njk' import breadcrumb %}
+
+{% block head %}
+  {% include 'partials/_dataTableAssets.njk' %}
+{% endblock %}
+
+{% block body %}
+{{ breadcrumb([['Admin','/admin'], ['Learners']]) }}
+
+<div class="container">
+
+<h1>Learners</h1>
+
+<table id="learner-table" class="table table-sm">
+  <thead>
+    <tr><th>Name</th><th>County</th><th>Completed Trainings</th><th>Last Training Date</th></tr>
+  </thead>
+  <tbody>
+  {% for u in users %}
+    <tr>
+      <td><a href="/admin/users/{{ u.id }}">{{ u.lastName }}, {{ u.firstName }}</a></td>
+      <td>{{ u.county.name | default('&mdash;' | safe) }}</td>
+      <td>{{ u.attempts.length }}</td>
+      <td>{{ (u.lastTrainingDate | date) if u.attempts.length else ('&mdash;' | safe) }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+</div>
+
+<script>
+  $(document).ready(() => {
+    $('#learner-table').DataTable();
+  });
+</script>
+
+{% endblock %}

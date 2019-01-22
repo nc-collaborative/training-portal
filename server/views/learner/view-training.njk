@@ -1,0 +1,73 @@
+{% extends '../_template.njk' %}
+
+{% block head %}
+{# <style>
+  .attempt-table td:nth-child(2) {
+    text-align: 
+  }
+</style> #}
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+
+<p class="lead">Training Module</p>
+<h1>{{ training.title }}</h1>
+<p class="lead">{{ training.shortDescription }}</p>
+
+<table class="table" style="width: auto;">
+  <tr>
+    <th>Hour credits:</th><td>{{ training.hours }}</td>
+  </tr>
+  <tr>
+    <th>Score needed to pass:</th><td>{{ training.passPercent }} %</td>
+  </tr>
+</table>
+
+<h2 class="h3">Description</h2>
+<blockquote><p class="lead">{{ training.longDescription | safe }}</p></blockquote>
+
+{% if authUser %}
+  <div class="card" style="margin: 1em 0;">
+  {% if attempts.length %}
+    <div class="card-header alert-info">
+      <p>You have taken {{ attempts.length }} attempt{{ 's' if attempts.length > 1}} at this training.</p>
+    </div>
+    <table class="table table-sm attempt-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th style="text-align: right;">Score</th>
+          <th style="text-align: center;">Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in attempts %}
+        <tr>
+          <td>{{ a.updatedOn | date }}</td>
+          <td style="text-align: right;">{{ a.grade }}%</td>
+          <td style="text-align: center;">
+          {% if a.isPassing %}
+            <span class="badge badge-success">pass</span>
+          {% else %}
+            <span class="badge badge-secondary">not passing</span>
+          {% endif %}
+          </td>
+          <td><a href="/trainings/{{ training.id }}/versions/{{ a.trainingVersion.id }}/attempts/{{ a.id }}">Review</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="p-2 text-center alert alert-info">You have not taken this training.</p>
+  {% endif %}
+  </div>
+  <p class="text-right"><a href="./{{ training.id }}/take" class="btn btn-primary"><i data-feather="play"></i> Start Training</a></p>
+{% else %}
+  <p class="text-center"><a href="/login?redirect={{ ('/training/' + training.id + '/take') | urlencode }}">Log In</a> to start the training</p>
+{% endif %}
+
+</div>
+{% endblock %}

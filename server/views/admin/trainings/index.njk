@@ -1,0 +1,36 @@
+{% extends '_template.njk' %}
+
+{% from 'macros/breadcrumb.njk' import breadcrumb %}
+{% from 'macros/badge.njk' import badge %}
+
+{% block body %}
+
+{{ breadcrumb([['Admin','/admin'], ['Trainings']]) }}
+
+<div class="container-fluid">
+
+<h1>Manage Trainings</h1>
+
+<div class="d-flex justify-content-around p-2">
+  <a class="btn btn-primary" href="/admin/trainings/new">Create New</a>
+</div>
+
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for t in trainings %}
+    <tr>
+      <td><a href="/admin/trainings/{{ t.id }}">{{ t.title }}</a></td>
+      <td>{{ badge(t.status) }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+</div>
+{% endblock %}

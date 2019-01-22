@@ -1,0 +1,42 @@
+{% extends '_template.njk' %}
+
+{% from 'macros/breadcrumb.njk' import breadcrumb %}
+
+{% block head %}
+  {% include 'partials/_dataTableAssets.njk' %}
+{% endblock %}
+
+{% block body %}
+{{ breadcrumb([['Admin','/admin'], ['Organizations']]) }}
+
+<div class="container">
+
+<h1>Organizations</h1>
+
+<table id="org-table" class="table table-sm">
+  <thead>
+    <tr><th>Name</th><th># Trainings</th></tr>
+  </thead>
+  <tbody>
+  {% for org in orgs %}
+    <tr>
+      <td><a href="/admin/orgs/{{ org.id }}">{{ org.name }}</a></td>
+      <td>{{ org.trainings.length }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<div class="text-center m-2">
+  <a href="/admin/orgs/new/edit" class="btn btn-primary">Create New</a>
+</div>
+
+</div>
+
+<script>
+  $(document).ready(() => {
+    $('#org-table').DataTable();
+  });
+</script>
+
+{% endblock %}

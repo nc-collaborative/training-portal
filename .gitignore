@@ -1,0 +1,10 @@
+node_modules
+dist
+
+*.map
+
+.cache
+*.tar.gz
+*.zip
+
+logs

@@ -1,0 +1,37 @@
+@supports (display: grid) {
+  @media screen and (min-width: 576px) {
+    form.grid-form {
+      display: grid;
+      grid-template-columns: max-content minmax(auto, 50ch);
+      align-items: baseline;
+      grid-gap: 1em;
+
+      label {
+        justify-self: end;
+      }
+
+      button[type='submit'] {
+        grid-column-start: 2;
+        justify-self: end;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  form > *:not(label) {
+    margin-bottom: 1.5em;
+  }
+
+  form > label {
+    margin-bottom: 0.5em;
+  }
+
+  button[type='submit'] {
+    float: right;
+  }
+}
+
+.form-group {
+  margin-bottom: 1.5em;
+}

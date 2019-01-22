@@ -1,0 +1,102 @@
+{
+  "pages": [
+    {
+      "name": "intro",
+      "elements": [
+        {
+          "html": "<h2>Our Mission</h2>\n\n<p>The North Carolina State Collaborative for Children, Youth, and Families, through a System of Care framework, provides a forum for collaboration, advocacy and action among families, public and private child and family serving agencies and community partners to improve outcomes for all children, youth and families.</p>\n\n<h2>Our Vision</h2>\n\n<p>Children, youth and families are healthy, safe and successful at home, in school and in their communities.</p>\n\n<h2>What is the State Collaborative for Children, Youth, and Families?</h2>\n\n<p>The State Collaborative:&nbsp;</p>\n\n<ul>\n\t<li>Provides a forum for the discussion of issues regarding how agencies, youth, and families can work together to produce better outcomes for children, youth and families.</li>\n\t<li>Develops recommendations regarding the coordination of services, funding, training and local reporting requirements to eliminate duplication and make the system more consumer friendly.</li>\n\t<li>Includes representatives of a range of state and local agencies, youth, families, and advocates.</li>\n\t<li>Provides support for local Collaboratives and Child and Family Teams.<br />\n\t&nbsp;</li>\n</ul>\n",
+          "name": "question2",
+          "type": "html"
+        }
+      ]
+    },
+    {
+      "name": "training committee",
+      "elements": [
+        {
+          "html": "<h3>Mission of Training Committee</h3>\n\n<p>\u000bTo design and deliver interagency/family and youth driven practice through training, conferences, Learning Institutes and other forums that promote best practices.</p>\n\n<ul>\n\t<li>CHILD AND FAMILY TEAMS: FROM THE FAMILY&rsquo;S PERSPECTIVE-This year we have provided a train the trainer for over thirty Provider/ Family/Youth teams that will train this curriculum all over North Carolina.</li>\n\t<li>We STRIVE TO develop collaboration among providers, families and youth.</li>\n</ul>\n",
+          "name": "question1",
+          "type": "html"
+        }
+      ]
+    },
+    {
+      "name": "cultural competencies",
+      "elements": [
+        {
+          "html": "<h2>Cultural Competencies / Health Disparities</h2>\n\n<h3>Mission</h3>\n\n<p>Healthy People 2020 defines a health disparity as a:</p>\n\n<blockquote>\n<p>&ldquo;particular type of health difference that is closely linked with social, economic, and/or environmental disadvantage. Health disparities adversely affect groups of people who have systematically experienced greater obstacles to health based on their racial or ethnic group; religion; socioeconomic status; gender; age; mental health; cognitive, sensory, or physical disability; sexual orientation or gender identity; geographic location; or other characteristics historically linked to discrimination or exclusion.&rdquo; Significant behavioral health disparities persist in diverse communities across the United States, including but not limited to: racial and ethnic groups; low SES populations; lesbian, gay, bisexual, transgender, and questioning (LGBTQ) populations; and transition-age youth.</p>\n</blockquote>\n",
+          "name": "question6",
+          "type": "html"
+        }
+      ]
+    },
+    {
+      "name": "top accomplishments",
+      "elements": [
+        {
+          "html": "<h2>Top Accomplishments &amp; Advocacy Efforts</h2>\n\n<ul>\n\t<li>Partnership with state leaders\n\t<ul>\n\t\t<li>Designed the local System of Care (SOC) Learning Institutes</li>\n\t\t<li>Supported Raise the Age initiative; and school based mental health initiative with legislators and decision makers</li>\n\t\t<li>Connecting leaders with family and youth voice</li>\n\t\t<li>Work in partnership to increase strategies for family partners</li>\n\t</ul>\n\t</li>\n\t<li>Development and roll out of orientation video and new member packets</li>\n\t<li>Governance committee for the SOC Expansion grant</li>\n\t<li>Partnered with NC Child, NCFU, SAYSO and Youth M.O.V.E. to present informational forum about new child welfare legislation.</li>\n\t<li>Development and follow through on strategic plan</li>\n\t<li>Revision, roll out and technical assistance of the Child &amp; Family Team 1 (CFT 1) training\n\t<ul>\n\t\t<li>Supporting twenty-eight agency staff and family partner teams across the state</li>\n\t</ul>\n\t</li>\n</ul>\n",
+          "name": "question7",
+          "type": "html"
+        }
+      ]
+    },
+    {
+      "name": "quiz",
+      "elements": [
+        {
+          "name": "question3",
+          "type": "radiogroup",
+          "title": "The North Carolina Collaborative for Children, Youth and Families is:",
+          "choices": [
+            "An equal forum for agency staff, family and youth leaders",
+            "A group run by cross system state leaders",
+            "A group that wants to maintain the status quo in North Carolina",
+            "An organization that believes parents need parenting classes."
+          ],
+          "isRequired": true,
+          "correctAnswer": "An equal forum for agency staff, family and youth leaders"
+        },
+        {
+          "name": "question4",
+          "type": "radiogroup",
+          "title": "The North Carolina Collaborative for Children, Youth and Families:",
+          "choices": [
+            "Has nothing to do with local collaborative",
+            "Believes in the inclusion of families and youth in every aspect of service delivery and policy",
+            "Only includes members who agree",
+            "Has to meet two times a month because of policy."
+          ],
+          "isRequired": true,
+          "correctAnswer": "Believes in the inclusion of families and youth in every aspect of service delivery and policy"
+        },
+        {
+          "name": "question5",
+          "type": "radiogroup",
+          "title": "The training committee of the Collaborative:",
+          "choices": [
+            "Focuses on the Curriculum “Child and Family Teams from the Family Perspective.” ",
+            "The Collaborative only has three co-training teams across the state that trains this curriculum.",
+            "Provides no technical assistance to training teams",
+            "Does not involve youth in training."
+          ],
+          "isRequired": true,
+          "correctAnswer": "Focuses on the Curriculum “Child and Family Teams from the Family Perspective.” "
+        },
+        {
+          "name": "question8",
+          "type": "radiogroup",
+          "title": "The social marketing committee:",
+          "choices": [
+            "memberships to people in local communities",
+            "Develops bill boards about the collaborative",
+            "Develops strategies to assist communities in understanding the goals of the system of care",
+            "Only focuses on developing a facebook page"
+          ],
+          "isRequired": true,
+          "correctAnswer": "Develops strategies to assist communities in understanding the goals of the system of care"
+        }
+      ]
+    }
+  ],
+  "showProgressBar": "both"
+}

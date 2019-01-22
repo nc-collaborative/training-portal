@@ -1,0 +1,40 @@
+{
+  "name": "browser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "start": "parcel watch --no-hmr \"src/**/*.ts\"",
+    "build": "parcel build src/**/*.ts",
+    "watch-styles": "sass --watch styles/index.scss:../static/index.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bootstrap": "^4.2.0",
+    "@types/ckeditor": "^4.9.5",
+    "@types/datatables.net": "^1.10.14",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "node-sass": "^4.11.0",
+    "parcel": "^1.11.0",
+    "sass": "^1.16.0",
+    "typescript": "^3.2.2"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bootstrap": "^4.2.1",
+    "ckeditor": "^4.11.2",
+    "feather-icons": "^4.10.0",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.6",
+    "survey-jquery": "^1.0.63",
+    "surveyjs-editor": "^1.0.64",
+    "sweetalert2": "^7.33.1"
+  }
+}
