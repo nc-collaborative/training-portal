@@ -61,13 +61,13 @@ router.put('/:vid/update', async ctx => {
 router.post('/:vid/copy', async ctx => {
   const version = await getVersion(ctx);
 
-  const newVersion = await TrainingVersions.save({ ...version, id: undefined });
+  const newVersion = await TrainingVersions.save({
+    ...version,
+    id: undefined,
+    status: TrainingVersionStatus.Inactive,
+  });
 
   ctx.response.body = newVersion;
-
-  // ctx.redirect(
-  //   `/admin/trainings/${version.training.id}/versions/${newVersion.id}/edit`,
-  // );
 });
 
 router.post('/:vid/publish', async ctx => {

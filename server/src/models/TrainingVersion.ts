@@ -30,7 +30,11 @@ export default class TrainingVersion {
   @Column('json')
   answer: object;
 
-  @Column({ type: 'enum', enum: TrainingVersionStatus })
+  @Column({
+    type: 'enum',
+    enum: TrainingVersionStatus,
+    default: TrainingVersionStatus.Inactive,
+  })
   status: string;
 
   @CreateDateColumn()
