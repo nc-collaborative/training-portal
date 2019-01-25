@@ -39,23 +39,18 @@ router.get('/trainings/:tid', async ctx => {
   let attempts: TrainingAttempt[] | undefined;
 
   if (ctx.state.authUser) {
-    attempts = await TrainingAttempts.createQueryBuilder('ta')
-      .innerJoinAndSelect('ta.user', 'user')
-      .where('user.id = :uid', { uid: ctx.state.authUser.id })
-      .innerJoinAndSelect('ta.trainingVersion', 'tv')
-      .innerJoinAndSelect('tv.training', 'training')
-      .where('training.id = :tid', { tid })
-      .getMany();
-  }
+    // HACK: there is probably a better way to do this with a querybuilder
+    const allAttempts = await TrainingAttempts.find({
+      where: {
+        user: { id: ctx.state.authUser.id },
+        // trainingVersion: { training: { id: training.id } }, // bc this doesn't work for some reason
+      },
+    });
 
-  // if (ctx.state.authUser) {
-  //   attempts = await TrainingAttempts.find({
-  //     where: {
-  //       user: { id: ctx.state.authUser.id },
-  //       trainingVersion: { training: { id: training.id } },
-  //     },
-  //   });
-  // }
+    attempts = allAttempts.filter(
+      at => at.trainingVersion.training.id == training.id,
+    );
+  }
 
   await ctx.render('learner/view-training', { training, attempts });
 });
