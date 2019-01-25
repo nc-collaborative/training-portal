@@ -9,14 +9,14 @@ const Trainings = getRepository(Training);
 const TrainingVersions = getRepository(TrainingVersion);
 
 router.get('/admin/trainings/new', async ctx => {
-  await ctx.render('admin/training/new-training', { new: true });
+  await ctx.render('admin/trainings/new-training', { new: true });
 });
 
 router.post('/admin/trainings/new', async ctx => {
   const training = Trainings.create(ctx.request.body as Partial<Training>);
   const errors = await validate(training);
   if (errors.length) {
-    return await ctx.render('admin/training/new-training', {
+    return await ctx.render('admin/trainings/new-training', {
       form: { ...training, errors },
     });
   }
@@ -25,7 +25,7 @@ router.post('/admin/trainings/new', async ctx => {
     const newTraining = await Trainings.save(training);
     ctx.redirect(`/admin/trainings/${newTraining.id}/edit`);
   } catch (error) {
-    await ctx.render('admin/training/new-training', {
+    await ctx.render('admin/trainings/new-training', {
       form: { ...training, error },
     });
   }
