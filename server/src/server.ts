@@ -151,16 +151,3 @@ app.use(async (ctx, next) => {
   process.exit(1);
 });
 
-// if (process.env.NODE_ENV != 'dev') {
-//   process.on('beforeExit', () => {
-//     logger.info('process exiting');
-//   });
-
-//   process.on('uncaughtException', e => {
-//     logger.error(e);
-//   });
-
-//   process.on('unhandledRejection', e => {
-//     logger.error(e);
-//   });
-// }
