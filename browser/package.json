@@ -7,8 +7,8 @@
     "lib": "lib"
   },
   "scripts": {
-    "start": "parcel watch --no-hmr \"src/**/*.ts\"",
-    "build": "parcel build src/**/*.ts",
+    "start": "parcel watch --no-hmr \"src/**/*.ts\" --public-url .",
+    "build": "parcel build \"src/**/*.ts\" --public-url .",
     "watch-styles": "sass --watch styles/index.scss:../static/index.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
