@@ -27,7 +27,7 @@ window.confirmCopy = async function confirmCopy(
       `/admin/trainings/${trainingId}/versions/${versionId}/copy`,
     );
 
-    window.location.assign(`./versions/${data.id}`);
+    window.location.assign(`./${trainingId}/versions/${data.id}/edit`);
   } catch (e) {
     swal.hideLoading();
     swal({
@@ -35,6 +35,7 @@ window.confirmCopy = async function confirmCopy(
       titleText: 'Sorry, there was an error.',
       html: `<code>${e.message}</code>`,
     });
+
     console.error(e);
   }
 };
