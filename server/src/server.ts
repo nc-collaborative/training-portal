@@ -1,3 +1,5 @@
+import 'module-alias/register';
+
 import fg from 'fast-glob';
 import {
   NotFound as NotFoundError,

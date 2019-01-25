@@ -17,6 +17,7 @@
     "koa-jwt": "^3.5.1",
     "koa-nunjucks-async": "^1.1.0",
     "koa-router": "^7.4.0",
+    "module-alias": "^2.1.0",
     "mysql": "^2.16.0",
     "nodemailer": "^5.1.1",
     "nunjucks": "^3.1.7",
@@ -52,6 +53,10 @@
     "db-check-schema": "ts-node ./node_modules/.bin/typeorm schema:log",
     "db-update-schema": "ts-node ./node_modules/.bin/typeorm schema:sync",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "_moduleAliases": {
+    "models": "./dist/models",
+    "utils": "./dist/utils"
   },
   "keywords": [],
   "author": "",
