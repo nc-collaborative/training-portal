@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import Organization from './Organization';
 import TrainingCategory from './TrainingCategory';
-import TrainingVersion from './TrainingVersion';
+import TrainingVersion, { TrainingVersionStatus } from './TrainingVersion';
 import User from './User';
 
 import config from '../server.config.json';
@@ -68,7 +68,9 @@ export default class Training {
   @Column('int')
   allowFeedbackAfterDays: number;
 
-  currentVersion: TrainingVersion;
+  get currentVersion(): TrainingVersion | undefined {
+    return this.versions.find(v => v.status == TrainingVersionStatus.Active);
+  }
 
   get publicURL() {
     return `https://${config.host}/training/${this.id}`;
