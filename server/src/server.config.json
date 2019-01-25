@@ -11,12 +11,16 @@
   },
   "jwtSecret": "thecollab",
   "bcryptHashRounds": 10,
-  "saltRounds": 12,
   "defaultDateFormat": "h:mma MMM. Do YYYY",
-  "smtp": {
-    "host": "localhost",
-    "port": 1025,
-    "username": null,
-    "password": null
+  "contactEmail": "someone@collab.test",
+  "mail": {
+    "replyTo": "no-reply@collab.test",
+    "useSendmail": false,
+    "smtp": {
+      "host": "localhost",
+      "port": 1025,
+      "username": false,
+      "password": false
+    }
   }
 }

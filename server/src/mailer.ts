@@ -9,21 +9,31 @@ import config from './server.config.json';
 
 const EmailRecords = getRepository(EmailRecord);
 
-const {
-  host: sitehost,
-  smtp: { host, port, username: user, password: pass },
-} = config;
+const mailConfig = config.mail;
 
 let transporter;
 
-if (process.env.NODE_ENV == 'dev') {
-  transporter = nodemailer.createTransport({
-    host,
-    port,
-  });
-} else {
+if (mailConfig.useSendmail) {
   transporter = nodemailer.createTransport({
     sendmail: true,
+  });
+} else {
+  const { smtp } = mailConfig;
+  let auth;
+
+  if (!smtp.username) {
+    auth = false;
+  } else {
+    auth = {
+      user: smtp.username,
+      pass: smtp.password,
+    };
+  }
+
+  transporter = nodemailer.createTransport({
+    host: smtp.host,
+    port: smtp.port,
+    auth,
   });
 }
 
@@ -31,19 +41,6 @@ const nenv = nunjucks.configure(path.join(__dirname, '..', 'views', 'emails'), {
   noCache: process.env.NODE_ENV == 'dev',
   autoescape: true,
 });
-
-// const nenv = new nunjucks.Environment(
-//   new nunjucks.FileSystemLoader(path.join(__dirname, '..', 'views', 'emails'), {
-//     ext: '.njk',
-//     opts: { noCache: !(env.NODE_ENV == 'production') },
-//     filters: {
-//       date: njDateFilter,
-//       ...njFilters,
-//     },
-//     globals: { NODE_ENV: env.NODE_ENV },
-//   }),
-//   { autoescape: true },
-// );
 
 nenv.addGlobal('site', {
   host: config.host,
@@ -71,7 +68,7 @@ const render = function(
 
 const mailer = {
   async send(message: Partial<MailMessage>): Promise<MailerResponse> {
-    if (!message.from) message.from = `no-reply@${sitehost}`;
+    if (!message.from) message.from = `no-reply@${config.host}`;
 
     if (message.template) {
       message.html = await render(message.template, message.vars);
