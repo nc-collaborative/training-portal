@@ -20,9 +20,7 @@ afterLoad(() => {
   const CkEditor_ModalEditor = {
     afterRender(modalEditor, htmlElement) {
       const editor = CKEDITOR.replace(htmlElement, {
-        extraPlugins: 'embed',
-        embed_provider:
-          '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',
+        extraAllowedContent: ['iframe[*]', 'video[*]'],
       });
       editor.on('change', function() {
         modalEditor.editingValue = editor.getData();
