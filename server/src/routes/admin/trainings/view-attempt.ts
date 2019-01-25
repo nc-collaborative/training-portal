@@ -8,7 +8,7 @@ const router = new Router();
 const Trainings = getRepository(Training);
 const TrainingAttempts = getRepository(TrainingAttempt);
 
-router.get('/admin/attempt/:aid', async ctx => {
+router.get('/admin/attempts/:aid', async ctx => {
   const { aid } = ctx.params;
 
   const attempt = await TrainingAttempts.findOne({

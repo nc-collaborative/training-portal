@@ -62,7 +62,7 @@
         <td>{{ a.trainingVersion.training.title }}</td>
         <td>{{ a.updatedOn | date }}</td>
         <td>{{ a.grade | default('n/a') }}</td>
-        <td><a href="#">review</a></td>
+        <td><a href="/admin/attempts/{{ a.id }}">review</a></td>
       </tr>
     {% endfor %}
     </tbody>

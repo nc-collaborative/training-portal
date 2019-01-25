@@ -4,43 +4,36 @@
   {% include 'partials/_surveyTakerAssets.njk' %}
 
   <script>
-    window.training = {{ training | dump | safe }};
-    window.version = {{ version | dump | safe }};
-    window.attempt = {{ attempt | dump | safe }};
+    window.__hhState = {
+      version: {{ version | dump | safe }},
+      attempt: {{ attempt | dump | safe }}
+    };
   </script>
 {% endblock %}
 
 {% block body %}
 <div class="container">
 
-
-  <h1>Submitted Results <br><small class="text-muted"><em>Training</em>: <a href="#">{{ training.title }}</a></small></h1>
+  <h1>Submitted Results <br><small class="text-muted"><em>Training</em>: <a href="/admin/trainings/{{ training.id }}">{{ training.title }}</a></small></h1>
   <p class="lead">by {{ user.firstName }} {{ user.lastName }} (<small><code>{{ user.email }}</code></small>)</p>
   <p class="lead">attempt #&thinsp;{{ attemptNo }} of {{ totalAttempts }}</p>
   <p><i data-feather="calendar"></i> Taken at {{ attempt.createdOn | date }}</p>
 
   <p class="display-4">Grade: {{ attempt.grade }} <small>&nbsp;%</small></p>
 
-  <p><span class="badge badge-success">PASS</span> {{ user.firstName }} answered 3 of 4 questions correctly.</p>
+  {% if attempt.grade >= training.passPercent %}
+    <p><span class="badge badge-success">PASS</span></p>
+  {% else %}
+    <p><span class="badge badge-secondary">NOT PASSING</span></p>
+  {% endif %}
 
   <p class="alert alert-info">A copy of the training with recorded answers is provided below for your
   reference.</p>
 
-  <div id="survey" class="hh-survey-container"></div>
+  <div id="survey-container" class="hh-survey-container"></div>
 
 </div>
 
-<script>
-
-  afterLoad(() => {
-    let survey = new Survey.Model(version.content);
-
-    survey.mode = 'display';
-    survey.data = attempt.answer;
-
-    $('#survey').Survey({ model: survey });
-  });
-
-</script>
+<script src="/scripts/admin/trainings/view-attempt.js"></script>
 
 {% endblock body %}
