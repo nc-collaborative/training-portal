@@ -103,11 +103,15 @@ content at the time it was taken.</p>
 </table>
 </div>
 
+<p class="text-center m-2">
+  <a href="./{{ training.id }}/versions/new" class="btn btn-primary">Add content</a>
+</p>
+
 {% else %}
   <div class="card">
     <div class="card-body">
       This training has no content.
-      <a href="./add-content" class="card-link" style="float: right;">Add content</a>
+      <a href="./{{ training.id }}/versions/new" class="card-link" style="float: right;">Add content</a>
     </div>
   </div>
 {% endif %}

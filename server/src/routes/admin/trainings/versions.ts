@@ -11,6 +11,19 @@ const TrainingAttempts = getRepository(TrainingAttempt);
 const TrainingVersions = getRepository(TrainingVersion);
 const Trainings = getRepository(Training);
 
+router.get('/new', async ctx => {
+  const training = await Trainings.findOne(ctx.params.tid);
+  if (!training) throw ctx.throw(404);
+
+  const version = await TrainingVersions.save({
+    training: { id: training.id },
+    content: {},
+    status: TrainingVersionStatus.Inactive,
+  });
+
+  return ctx.redirect(`./${version.id}/edit`);
+});
+
 router.get('/:vid/edit', async ctx => {
   const tid = parseInt(ctx.params.tid, 10);
   const vid = parseInt(ctx.params.vid, 10);
