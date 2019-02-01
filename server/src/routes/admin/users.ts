@@ -1,43 +1,54 @@
-import bcrypt from 'bcrypt';
 import Router from 'koa-router';
 import County from 'models/County';
 import { getRepository } from 'typeorm';
 import mailer from '../../mailer';
 import User, { UserStatus } from '../../models/User';
-import config from '../../server.config.json';
 import { randToken } from '../../utils/tokenUtils';
 import { validate } from '../../validator';
 
 const Users = getRepository(User);
+const Counties = getRepository(County);
 
-const router = new Router();
+const router = new Router({
+  prefix: '/admin/users',
+});
 
-// TODO: consolidate route prefixes and user entity fetching in higher route param
+router.use(async (ctx, next) => {
+  ctx.state.counties = await Counties.find();
+  return next();
+});
 
-router.get('/admin/users', async ctx => {
+router.param('uid', async (id, ctx, next) => {
+  if (id == 'new') return next();
+  const user = await Users.findOne(id);
+  if (!user) throw ctx.throw(404);
+  ctx.state.user = user;
+  return next();
+});
+
+/**
+ * Index / list of users
+ */
+router.get('/', async ctx => {
   const users = await Users.find();
-
   await ctx.render('admin/users/users', { users });
 });
 
-router.get('/admin/users/:uid', async ctx => {
-  const uid = parseInt(ctx.params.uid, 10);
-
-  const user = await Users.findOne({
-    where: { id: uid },
+/**
+ * Info page of specific user
+ */
+router.get('/:uid(\\d+)', async ctx => {
+  const user = await Users.findOne(ctx.state.user.id, {
     relations: ['attempts'],
   });
-
-  if (!user) throw ctx.throw(404);
-
   await ctx.render('admin/users/view-user', { user });
 });
 
-router.post('/admin/users/:uid/sendverification', async ctx => {
-  const uid = parseInt(ctx.params.uid, 10);
-
-  const user = await Users.findOne({ where: { id: uid } });
-  if (!user) throw ctx.throw(404);
+/**
+ * Re-send email verification code to user
+ */
+router.post('/:uid/sendverification', async ctx => {
+  const user = ctx.state.user;
 
   try {
     user.genVerifyCode();
@@ -50,38 +61,16 @@ router.post('/admin/users/:uid/sendverification', async ctx => {
   }
 });
 
-router.get('/admin/users/:oid/edit', async ctx => {
-  const { oid } = ctx.params;
-
-  let user;
-
-  if (oid != 'new') {
-    user = await Users.findOne(ctx.params.oid);
-    if (!user) throw ctx.throw(404);
-  } else {
-    user = { id: 'new' };
-  }
-
-  const counties = await getRepository(County).find();
-
+/**
+ * Edit user page
+ */
+router.get('/:uid/edit', async ctx => {
+  const { user, counties } = ctx.state;
   await ctx.render('admin/users/edit-user', { user, counties, form: user });
 });
 
-router.post('/admin/users/:oid/edit', async ctx => {
-  let { oid } = ctx.params;
-  let user: User | undefined;
-  const isNew = oid == 'new';
-
-  if (isNew) {
-    user = new User();
-  } else {
-    oid = parseInt(oid, 10);
-    user = await Users.findOne(oid);
-    if (!user) return (ctx.status = 404);
-  }
-
-  const counties = await getRepository(County).find();
-
+router.post('/:uid/edit', async ctx => {
+  const { user, counties } = ctx.state;
   const form = ctx.request.body;
 
   const changedEmail = user.email != form.email;
@@ -108,19 +97,12 @@ router.post('/admin/users/:oid/edit', async ctx => {
       user.genVerifyCode();
     }
 
-    let newPass;
-    if (isNew) {
-      newPass = randToken(10);
-      user.phash = bcrypt.hashSync(newPass, config.bcryptHashRounds);
-    }
-
     const { id } = await Users.save(submittedUser);
     const updatedUser = await Users.findOne(id);
 
-    if (isNew || changedEmail) {
+    if (changedEmail) {
       await mailer.sendUserRegistration(updatedUser!, {
-        isNewAccount: isNew,
-        newPass,
+        isNewAccount: false,
       });
     }
 
@@ -134,6 +116,42 @@ router.post('/admin/users/:oid/edit', async ctx => {
       counties,
     });
   }
+});
+
+/**
+ * Create new user page
+ */
+router.get('/new', async ctx => {
+  const { counties } = ctx.state;
+  await ctx.render('admin/users/edit-user', { isNew: true, counties });
+});
+
+router.post('/new', async ctx => {
+  const { counties } = ctx.state;
+  const form = ctx.request.body;
+
+  const submittedUser = Users.merge(Users.create(), form);
+
+  // HACK: maybe there's a better way to do this with TypeORM? But for now,
+  // this is the easiest way to make sure changes to county are saved
+  submittedUser.county = counties.find(c => c.id == form.countyId)!;
+
+  const errors = await validate(submittedUser);
+  if (errors.length) {
+    ctx.status = 400;
+    return await ctx.render('admin/users/edit-user', {
+      form: { ...submittedUser, errors },
+      user: submittedUser,
+      counties,
+      isNew: true,
+    });
+  }
+
+  const newPass = randToken(16);
+
+  const newUser = await Users.save(submittedUser);
+  await mailer.sendUserRegistration(newUser, { isNewAccount: true, newPass });
+  ctx.redirect(`/admin/users/${newUser.id}`);
 });
 
 export default router;

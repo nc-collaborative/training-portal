@@ -13,7 +13,7 @@
 
 <div class="container">
 
-<h1>{{ 'New' if user.id == 'new' else 'Edit' }} User</h1>
+<h1>{{ 'New' if isNew else 'Edit' }} User</h1>
 
 {% if didUpdate %}
   <div id="didupdate" class="alert alert-success collapse"
@@ -28,7 +28,11 @@
   <div class="alert alert-danger"><pre>{{ form.error | dump(2) }}</pre></div>
 {% endif %}
 
-<form action="/admin/users/{{ form.id }}/edit" method="post">
+{% if isNew %}
+  <form action="/admin/users/new" method="post">
+{% else %}
+  <form action="/admin/users/{{ form.id }}/edit" method="post">
+{% endif %}
 
   {{ input(name='firstName', label='First Name', required=true, form=form, attrs={maxlength: 255}) }}
   {{ input(name='lastName', label='Last Name', required=true, form=form, attrs={maxlength: 255}) }}
