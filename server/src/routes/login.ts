@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import Router from 'koa-router';
 import { getRepository } from 'typeorm';
+
+import { setAuthCookie } from '../authn';
 import User, { UserStatus } from '../models/User';
-import config from '../server.config.json';
 
 const router = new Router();
 
@@ -43,20 +43,7 @@ router.post('/login', async ctx => {
     });
   }
 
-  // Set auth token and redirect
-  const token = jwt.sign(
-    {
-      exp: Math.floor(Date.now() / 1000) + 24 * 3600,
-      authUser: user.toJSON(),
-    },
-    config.jwtSecret,
-  );
-
-  ctx.cookies.set('auth', token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV == 'production',
-    maxAge: 24 * 3600 * 1000,
-  });
+  setAuthCookie(ctx, user);
 
   if (ctx.query.redirect) {
     ctx.redirect(ctx.query.redirect);
