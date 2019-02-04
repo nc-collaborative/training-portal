@@ -1,12 +1,13 @@
 import jwt from 'jsonwebtoken';
 import { Context } from 'koa';
+import { getRepository } from 'typeorm';
 
 import User from '../models/User';
 import config from '../server.config.json';
 
 interface IjwtPayload {
   exp: number;
-  authUser: User;
+  uid: number;
 }
 
 export default async function authMiddleware(ctx: Context, next) {
@@ -19,7 +20,11 @@ export default async function authMiddleware(ctx: Context, next) {
 
   try {
     const token = jwt.verify(rawJwt, config.jwtSecret) as IjwtPayload;
-    ctx.state.authUser = token.authUser; // set authUser for later routes
+
+    // set authUser for later routes
+    ctx.state.authUser = await getRepository(User).findOneOrFail(
+      Number(token.uid),
+    );
 
     // Refresh expiry of token
     token.exp = Math.floor(Date.now() / 1000) + 24 * 60 * 60; // expire 24 hours from now

@@ -19,7 +19,7 @@ export function setAuthCookie(ctx: IRouterContext, user: User) {
   const token = jwt.sign(
     {
       exp: Math.floor(Date.now() / 1000) + 24 * 3600,
-      authUser: user.toJSON(),
+      uid: user.id,
     },
     config.jwtSecret,
   );
