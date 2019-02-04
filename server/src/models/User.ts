@@ -15,6 +15,8 @@ import TrainingAttempt from './TrainingAttempt';
 import UserRole from './UserRole';
 
 import bcrypt from 'bcrypt';
+
+import { AuthUser } from '../authn';
 import { randToken } from '../utils/tokenUtils';
 
 export enum UserStatus {
@@ -71,10 +73,12 @@ export default class User {
     return this.firstName + ' ' + this.lastName;
   }
 
-  toJSON() {
-    const copy = Object.assign({}, this);
-    delete copy.phash;
-    delete copy.verifyCode;
+  toJSON(): AuthUser {
+    const copy = Object.assign({}, this, {
+      phash: undefined,
+      verifyCode: undefined,
+      userRoles: this.userRoles.map(r => r.name),
+    });
     return copy;
   }
 

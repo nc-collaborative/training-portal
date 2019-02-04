@@ -8,9 +8,23 @@ import { IRouterContext } from 'koa-router';
 import User from 'models/User';
 import config from './server.config.json';
 
-export function assertRole(ctx: IRouterContext, role: string) {
-  if (!ctx.state.authUser) throw new UnauthorizedError();
-  if (ctx.state.authUser.userRoles.includes(role)) return true;
+export type AuthUser = User & {
+  phash?: never;
+  verifyCode?: never;
+  userRoles: string[];
+};
+
+/**
+ * Ensure that the authUser of the given context has the specified role,
+ * else throw an appropriate error.
+ *
+ * If no role is specified, assert that the current context has any logged-in user
+ */
+export function assertRole(ctx: IRouterContext, role?: string) {
+  const user: AuthUser | undefined = ctx.state.authUser;
+  if (!user) throw new UnauthorizedError();
+  if (!role) return true;
+  if (user.userRoles.includes(role)) return true;
   else throw new ForbiddenError();
 }
 

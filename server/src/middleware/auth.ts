@@ -14,7 +14,7 @@ export default async function authMiddleware(ctx: Context, next) {
   // jwt should be in cookie called 'auth'
   const rawJwt = ctx.cookies.get('auth');
   if (!rawJwt) {
-    ctx.state.authUser = null;
+    ctx.state.authUser = undefined;
     return next();
   }
 
@@ -22,9 +22,9 @@ export default async function authMiddleware(ctx: Context, next) {
     const token = jwt.verify(rawJwt, config.jwtSecret) as IjwtPayload;
 
     // set authUser for later routes
-    ctx.state.authUser = await getRepository(User).findOneOrFail(
+    ctx.state.authUser = (await getRepository(User).findOneOrFail(
       Number(token.uid),
-    );
+    )).toJSON();
 
     // Refresh expiry of token
     token.exp = Math.floor(Date.now() / 1000) + 24 * 60 * 60; // expire 24 hours from now
