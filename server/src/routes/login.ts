@@ -58,8 +58,8 @@ router.post('/login', async ctx => {
     maxAge: 24 * 3600 * 1000,
   });
 
-  if (ctx.params.redirect) {
-    ctx.redirect(ctx.params.redirect);
+  if (ctx.query.redirect) {
+    ctx.redirect(ctx.query.redirect);
   } else {
     ctx.redirect('/trainings');
   }
