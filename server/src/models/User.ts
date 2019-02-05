@@ -44,7 +44,7 @@ export default class User {
   @Column('varchar')
   phash: string;
 
-  @ManyToOne(type => County, { eager: true })
+  @ManyToOne(type => County, { eager: true, nullable: true })
   county: County;
 
   @CreateDateColumn()
@@ -54,7 +54,7 @@ export default class User {
   @JoinTable()
   userRoles: UserRole[];
 
-  @Column('varchar')
+  @Column('varchar', { nullable: true })
   gender: string;
 
   @Column()

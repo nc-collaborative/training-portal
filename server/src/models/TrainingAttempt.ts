@@ -42,7 +42,7 @@ export default class TrainingAttempt {
   @Column({ type: 'enum', enum: TrainingAttemptStatus, nullable: false })
   status: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   traineeFeedback: string;
 
   get isPassing() {
