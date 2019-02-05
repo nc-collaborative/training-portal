@@ -3,7 +3,7 @@
   {% set error = false %}
   {% set invalid = false %}
   {% for err in form.errors %}
-    {% if err.property == name %}
+    {% if err.context.key == name %}
       {% set error = err %}
       {% set invalid = true %}
     {% endif %}
@@ -55,7 +55,7 @@
 
     {% if invalid %}
       <div class="invalid-feedback">
-      {% for k,c in error.constraints %}<div>{{ c }}</div>{% endfor %}
+      {{ error.message }}
       </div>
     {% endif %}
   </div>
