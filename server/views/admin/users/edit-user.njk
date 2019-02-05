@@ -24,8 +24,11 @@
   <script>flashCollapse('#didupdate');</script>
 {% endif %}
 
-{% if form.error %}
-  <div class="alert alert-danger"><pre>{{ form.error | dump(2) }}</pre></div>
+{% if form.errors %}
+  <div class="alert alert-danger">
+    <p>The user could not be saved.</p>
+    <p>Please check the fields below for errors, then submit again.</p>
+  </div>
 {% endif %}
 
 {% if isNew %}
@@ -34,10 +37,13 @@
   <form action="/admin/users/{{ form.id }}/edit" method="post">
 {% endif %}
 
+  {% if form.county %}{% set form = form|setProp('countyId', form.county.id) %}{% endif %}
+
   {{ input(name='firstName', label='First Name', required=true, form=form, attrs={maxlength: 255}) }}
   {{ input(name='lastName', label='Last Name', required=true, form=form, attrs={maxlength: 255}) }}
   {{ input(name='email', label='Email', type='email', required=true, form=form, attrs={maxlength: 255}) }}
-  {{ input(name='countyId', label='County', type='select', options=counties, form=form, value=form.county.id) }}
+  {{ input(name='countyId', label='County', type='select', options=counties, form=form) }}
+  {{ input(name='gender', label='Gender (optional)', form=form) }}
 
   <div class="d-flex justify-content-end">
     <a href="/admin/users/{{ form.id if not 'new' }}" class="btn btn-secondary m-2">Cancel</a>

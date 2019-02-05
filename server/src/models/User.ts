@@ -14,8 +14,10 @@ import County from './County';
 import TrainingAttempt from './TrainingAttempt';
 import UserRole from './UserRole';
 
+import * as Joi from 'joi';
 import bcrypt from 'bcrypt';
 
+import config from '../server.config.json';
 import { AuthUser } from '../authn';
 import { randToken } from '../utils/tokenUtils';
 
@@ -86,4 +88,35 @@ export default class User {
   genVerifyCode() {
     this.verifyCode = randToken(32); // just a random string
   }
+
+  static async generateNewPass() {
+    const pword = randToken(16);
+    const phash = await bcrypt.hash(pword, config.bcryptHashRounds);
+    return { pword, phash };
+  }
+
+  static schema = Joi.object().keys({
+    firstName: Joi.string()
+      .trim()
+      .max(255)
+      .required()
+      .label('First name'),
+    lastName: Joi.string()
+      .trim()
+      .max(255)
+      .required()
+      .label('Last name'),
+    email: Joi.string()
+      .trim()
+      .max(255)
+      .email()
+      .required(),
+    gender: Joi.string()
+      .trim()
+      .lowercase()
+      .max(255)
+      .empty('')
+      .default(null),
+    countyId: Joi.number(),
+  });
 }

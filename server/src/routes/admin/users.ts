@@ -1,9 +1,10 @@
 import Router from 'koa-router';
-import County from 'models/County';
 import { getRepository } from 'typeorm';
+
+import County from 'models/County';
+import User, { UserStatus } from 'models/User';
+
 import mailer from '../../mailer';
-import User, { UserStatus } from '../../models/User';
-import { randToken } from '../../utils/tokenUtils';
 import { validate } from '../../validator';
 
 const Users = getRepository(User);
@@ -73,23 +74,23 @@ router.post('/:uid/edit', async ctx => {
   const { user, counties } = ctx.state;
   const form = ctx.request.body;
 
-  const changedEmail = user.email != form.email;
+  let { value, error } = User.schema.validate(form);
 
-  const submittedUser = Users.merge(user, form);
-
-  // HACK: maybe there's a better way to do this with TypeORM? But for now,
-  // this is the easiest way to make sure changes to county are saved
-  submittedUser.county = counties.find(c => c.id == form.countyId)!;
-
-  const errors = await validate(submittedUser);
-  if (errors.length) {
+  if (error) {
     ctx.status = 400;
     return await ctx.render('admin/users/edit-user', {
-      form: { ...submittedUser, errors },
-      user: submittedUser,
+      form: { ...value, errors: error.details },
+      user: value,
       counties,
     });
   }
+
+  const changedEmail = user.email != value.email;
+  const submittedUser = Users.merge(user, value);
+
+  // HACK: maybe there's a better way to do this with TypeORM? But for now,
+  // this is the easiest way to make sure changes to county are saved
+  submittedUser.county = counties.find(c => c.id == value.countyId)!;
 
   try {
     if (changedEmail) {
@@ -108,11 +109,22 @@ router.post('/:uid/edit', async ctx => {
 
     // Save was successful, redirect back to view user
     return ctx.redirect(`/admin/users/${updatedUser!.id}`);
+
+    // TODO: better way to separately handle conflicting email vs. other
+    // possible saving errors
   } catch (error) {
     ctx.status = 401;
     await ctx.render('admin/users/edit-user', {
-      form: { ...submittedUser, error },
-      user: submittedUser,
+      form: {
+        ...value,
+        errors: [
+          {
+            context: { key: 'email' },
+            message: 'A user with that email already exists.',
+          },
+        ],
+      },
+      user: value,
       counties,
     });
   }
@@ -130,27 +142,38 @@ router.post('/new', async ctx => {
   const { counties } = ctx.state;
   const form = ctx.request.body;
 
-  const submittedUser = Users.merge(Users.create(), form);
+  let { value, error } = User.schema.validate(form) as any;
 
-  // HACK: maybe there's a better way to do this with TypeORM? But for now,
-  // this is the easiest way to make sure changes to county are saved
-  submittedUser.county = counties.find(c => c.id == form.countyId)!;
+  if (!error && (await Users.findOne({ email: value.email }))) {
+    if (!error) error = { details: [] };
+    error.details.push({
+      context: { key: 'email' },
+      message: 'A user with that email already exists',
+    });
+  }
 
-  const errors = await validate(submittedUser);
-  if (errors.length) {
+  if (error) {
     ctx.status = 400;
     return await ctx.render('admin/users/edit-user', {
-      form: { ...submittedUser, errors },
-      user: submittedUser,
+      form: { ...form, errors: error.details },
+      user: value,
       counties,
       isNew: true,
     });
   }
 
-  const newPass = randToken(16);
+  const { pword, phash } = await User.generateNewPass();
+  const submittedUser = Users.merge(Users.create(), value, { phash });
+
+  // HACK: maybe there's a better way to do this with TypeORM? But for now,
+  // this is the easiest way to make sure changes to county are saved
+  submittedUser.county = counties.find(c => c.id == value.countyId)!;
 
   const newUser = await Users.save(submittedUser);
-  await mailer.sendUserRegistration(newUser, { isNewAccount: true, newPass });
+  await mailer.sendUserRegistration(newUser, {
+    isNewAccount: true,
+    newPass: pword,
+  });
   ctx.redirect(`/admin/users/${newUser.id}`);
 });
 
