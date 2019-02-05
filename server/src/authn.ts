@@ -3,7 +3,9 @@ import {
   Unauthorized as UnauthorizedError,
 } from 'http-errors';
 import jwt from 'jsonwebtoken';
+import { Context } from 'koa';
 import { IRouterContext } from 'koa-router';
+import { getRepository } from 'typeorm';
 
 import User from 'models/User';
 import config from './server.config.json';
@@ -28,19 +30,46 @@ export function assertRole(ctx: IRouterContext, role?: string) {
   else throw new ForbiddenError();
 }
 
-export function setAuthCookie(ctx: IRouterContext, user: User) {
+export function setAuthCookie(ctx: Context | IRouterContext, user: User) {
   // Set auth token and redirect
-  const token = jwt.sign(
-    {
-      exp: Math.floor(Date.now() / 1000) + 24 * 3600,
-      uid: user.id,
-    },
-    config.jwtSecret,
-  );
+  const token = jwt.sign({ uid: user.id }, config.jwtSecret, {
+    expiresIn: '24h',
+  });
 
   ctx.cookies.set('auth', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV == 'production',
     maxAge: 24 * 3600 * 1000,
   });
+}
+
+interface IjwtPayload {
+  exp: number;
+  uid: number;
+}
+
+export async function authMiddleware(ctx: Context, next) {
+  // jwt should be in cookie called 'auth'
+  const rawJwt = ctx.cookies.get('auth');
+  if (!rawJwt) {
+    ctx.state.authUser = undefined;
+    return next();
+  }
+
+  try {
+    const token = jwt.verify(rawJwt, config.jwtSecret) as IjwtPayload;
+    const user = await getRepository(User).findOneOrFail(Number(token.uid));
+    ctx.state.authUser = user.toJSON();
+
+    // Refresh token if it expires in less than 1 hour (exp is in seconds)
+    const oneHr = Math.floor(Date.now() / 1000) + 3600;
+    if (token.exp < oneHr) {
+      setAuthCookie(ctx, user);
+    }
+  } catch (e) {
+    // delete the cookie, everything else will act as if not logged in
+    ctx.cookies.set('auth');
+    ctx.state.authUser = undefined;
+  }
+  return next();
 }
