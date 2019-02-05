@@ -71,6 +71,9 @@ export default class User {
   @Column('varchar', { nullable: true })
   verifyCode: string;
 
+  @Column('timestamp', { nullable: true })
+  lastLoggedIn: Date;
+
   get fullName() {
     return this.firstName + ' ' + this.lastName;
   }

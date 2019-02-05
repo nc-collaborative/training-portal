@@ -10,6 +10,8 @@ import { getRepository } from 'typeorm';
 import User from 'models/User';
 import config from './server.config.json';
 
+import { fireAndForget } from 'utils/sleep';
+
 export type AuthUser = User & {
   phash?: never;
   verifyCode?: never;
@@ -41,6 +43,9 @@ export function setAuthCookie(ctx: Context | IRouterContext, user: User) {
     secure: process.env.NODE_ENV == 'production',
     maxAge: 24 * 3600 * 1000,
   });
+
+  user.lastLoggedIn = new Date();
+  fireAndForget(() => getRepository(User).save(user));
 }
 
 interface IjwtPayload {
@@ -59,13 +64,14 @@ export async function authMiddleware(ctx: Context, next) {
   try {
     const token = jwt.verify(rawJwt, config.jwtSecret) as IjwtPayload;
     const user = await getRepository(User).findOneOrFail(Number(token.uid));
-    ctx.state.authUser = user.toJSON();
 
     // Refresh token if it expires in less than 1 hour (exp is in seconds)
     const oneHr = Math.floor(Date.now() / 1000) + 3600;
     if (token.exp < oneHr) {
       setAuthCookie(ctx, user);
     }
+
+    ctx.state.authUser = user.toJSON();
   } catch (e) {
     // delete the cookie, everything else will act as if not logged in
     ctx.cookies.set('auth');
