@@ -13,7 +13,7 @@
 
 <div class="container">
 
-<p class="lead">Edit Organization</p>
+<p class="lead">{{ 'New' if isNew else 'Edit' }} Organization</p>
 
 {% if didUpdate %}
   <div id="didupdate" class="alert alert-success collapse"
@@ -26,11 +26,11 @@
 
 <h1>{{ org.longName }}</h1>
 
-{% if form.error %}
-  <div class="alert alert-danger"><pre>{{ form.error | dump(2) }}</pre></div>
+{% if isNew %}
+  <form action="/admin/orgs/new" method="post">
+{% else %}
+  <form action="/admin/orgs/{{ form.id }}/edit" method="post">
 {% endif %}
-
-<form action="/admin/orgs/{{ form.id }}/edit" method="post">
 
   {{ input(name='longName', label='Name', required=true, form=form) }}
   {{ input(name='name', label='Short Name', required=true, form=form) }}

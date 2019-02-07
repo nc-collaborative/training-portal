@@ -1,56 +1,36 @@
 import Router from 'koa-router';
 import Organization from 'models/Organization';
 import { getRepository } from 'typeorm';
-import User from '../../models/User';
 import { validate } from '../../validator';
-
-const Users = getRepository(User);
 
 const Organizations = getRepository(Organization);
 
-const router = new Router();
+const router = new Router({ prefix: '/admin/orgs' });
 
-router.get('/admin/orgs', async ctx => {
+router.param('oid', async (id, ctx, next) => {
+  let org = await Organizations.findOne(id);
+  if (!org) throw ctx.throw(404);
+
+  ctx.state.org = org;
+  return next();
+});
+
+router.get('/', async ctx => {
   const orgs = await Organizations.find();
-
   await ctx.render('admin/organizations/organizations', { orgs });
 });
 
-router.get('/admin/orgs/:oid', async ctx => {
-  const org = await Organizations.findOne(ctx.params.oid);
-  if (!org) throw ctx.throw(404);
-
-  await ctx.render('admin/organizations/view-org', { org });
+router.get('/:oid(\\d+)', async ctx => {
+  await ctx.render('admin/organizations/view-org', { org: ctx.state.org });
 });
 
-router.get('/admin/orgs/:oid/edit', async ctx => {
-  const { oid } = ctx.params;
-
-  let org;
-
-  if (oid != 'new') {
-    org = await Organizations.findOne(ctx.params.oid);
-    if (!org) throw ctx.throw(404);
-  } else {
-    org = { id: 'new' };
-  }
-
+router.get('/:oid/edit', async ctx => {
+  const { org } = ctx.state;
   await ctx.render('admin/organizations/edit-org', { org, form: org });
 });
 
-router.post('/admin/orgs/:oid/edit', async ctx => {
-  let { oid } = ctx.params;
-  let org: Organization | undefined;
-  const isNew = oid == 'new';
-
-  if (isNew) {
-    org = new Organization();
-  } else {
-    oid = parseInt(oid, 10);
-    org = await Organizations.findOne(oid);
-    if (!org) return (ctx.status = 404);
-  }
-
+router.post('/:oid/edit', async ctx => {
+  const org = ctx.state.org;
   const form = ctx.request.body;
 
   const submittedOrg = Organizations.merge(org, form);
@@ -63,8 +43,6 @@ router.post('/admin/orgs/:oid/edit', async ctx => {
     });
   }
 
-  if (oid == 'new') delete form.id;
-
   try {
     const { id } = await Organizations.save(submittedOrg);
     const updatedOrg = await Organizations.findOne(id);
@@ -75,6 +53,26 @@ router.post('/admin/orgs/:oid/edit', async ctx => {
     await ctx.render('admin/organizations/edit-org', {
       form: { ...submittedOrg, error },
       org: submittedOrg,
+    });
+  }
+});
+
+router.get('/new', async ctx => {
+  await ctx.render('admin/organizations/edit-org', { isNew: true });
+});
+
+router.post('/new', async ctx => {
+  let form = ctx.request.body;
+  let org = Organizations.create([form])[0];
+
+  try {
+    const newOrg = await Organizations.save(org);
+    return ctx.redirect(`/admin/orgs/${newOrg.id}`);
+  } catch (error) {
+    ctx.status = 401;
+    await ctx.render('admin/organizations/edit-org', {
+      form: { ...form, error },
+      org: form,
     });
   }
 });
