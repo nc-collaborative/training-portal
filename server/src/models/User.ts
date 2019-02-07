@@ -19,7 +19,9 @@ import bcrypt from 'bcrypt';
 
 import config from '../server.config.json';
 import { AuthUser } from '../authn';
-import { randToken } from '../utils/tokenUtils';
+
+import { randToken } from 'utils/tokenUtils';
+import * as valid from 'utils/validation';
 
 export enum UserStatus {
   Active = 'active',
@@ -99,27 +101,10 @@ export default class User {
   }
 
   static schema = Joi.object().keys({
-    firstName: Joi.string()
-      .trim()
-      .max(255)
-      .required()
-      .label('First name'),
-    lastName: Joi.string()
-      .trim()
-      .max(255)
-      .required()
-      .label('Last name'),
-    email: Joi.string()
-      .trim()
-      .max(255)
-      .email()
-      .required(),
-    gender: Joi.string()
-      .trim()
-      .lowercase()
-      .max(255)
-      .empty('')
-      .default(null),
+    firstName: valid.varchar.required().label('First name'),
+    lastName: valid.varchar.required().label('Last name'),
+    email: valid.varchar.email().required(),
+    gender: valid.varchar.lowercase(),
     countyId: Joi.number(),
   });
 }
