@@ -13,12 +13,12 @@
 {% endblock %}
 
 {% block body %}
-{{ breadcrumb([['Admin','/admin'], ['Organizations', '/admin/orgs']]) }}
+{{ breadcrumb([['Admin','/admin'], ['Organizations', '/admin/orgs'], [org.name]]) }}
 
 <div class="container">
 
 <p class="lead">Organization:</p>
-<h1>{{ org.longName }}</h1>
+<h1>{{ org.name }}</h1>
 
 {% if org.logoPath %}
   
@@ -27,11 +27,15 @@
 <table id="orginfo" class="table table-sm">
   <tr>
     <th>short name</th>
-    <td>{{ org.name }}</td>
+    <td>{{ org.shortName | default('<em>none</em>', true) | safe }}</td>
   </tr>
   <tr>
     <th>website</th>
-    <td><code><a href="{{ org.url }}" target="_blank" rel="noopener">{{ org.url }}</a></code></td>
+    <td>
+      {% if org.url %}<code><a href="{{ org.url }}" target="_blank" rel="noopener">{{ org.url }}</a></code>
+      {% else %}<em>none</em>
+      {% endif %}
+    </td>
   </tr>
   <tr>
     <th>logo</th>
