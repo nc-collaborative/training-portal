@@ -42,6 +42,7 @@ export function setAuthCookie(ctx: Context | IRouterContext, user: User) {
     httpOnly: true,
     secure: process.env.NODE_ENV == 'production',
     maxAge: 24 * 3600 * 1000,
+    sameSite: true,
   });
 
   user.lastLoggedIn = new Date();
