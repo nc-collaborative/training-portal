@@ -49,6 +49,12 @@ app.use(errorMiddleware);
     await ctx.render('index', { message: 'hello' });
   });
 
+  if (process.env.NODE_ENV != 'production') {
+    router.get('/robots.txt', async ctx => {
+      ctx.response.body = 'User-agent: *\nDisallow: /';
+    });
+  }
+
   router.get('/about', async ctx => {
     await ctx.render('about');
   });
