@@ -19,11 +19,13 @@
     "@types/bootstrap": "^4.2.0",
     "@types/ckeditor": "^4.9.5",
     "@types/datatables.net": "^1.10.14",
+    "@types/select2": "^4.0.47",
     "babel-core": "^6.26.3",
     "babel-plugin-transform-runtime": "^6.23.0",
     "node-sass": "^4.11.0",
     "parcel": "^1.11.0",
     "sass": "^1.16.0",
+    "select2": "^4.0.6-rc.1",
     "typescript": "^3.2.2"
   },
   "dependencies": {

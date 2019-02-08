@@ -1,4 +1,4 @@
-{% macro input(name, label=name, type='text', value='', required=false, classlist=[], message='', form, attrs={}, styles={}, options=[], optionkey='name') %}
+{% macro input(name, label=name, type='text', value='', required=false, classlist=[], message='', form, attrs={}, styles={}, options=[], optionkey='name', multiple=false) %}
 
   {% set error = false %}
   {% set invalid = false %}
@@ -34,11 +34,15 @@
     {% elif type == 'textarea' %}
       <label for="input-{{ name }}">{{ label }}</label>
       <textarea {{ inputTag(name, required, type, classlist, invalid, form, styles, attrs) }}>{{ form[name] or value }}</textarea>
-    {% elif type == 'select' %}
+    {% elif type == 'select' or type == 'select2' %}
       <label for="input-{{ name }}">{{ label }}</label>
-      <select name="{{ name }}" id="input-{{ name }}" class="custom-select">
-        <option>select...</option>
-        {% if value %}
+      <select name="{{ name }}{{ '[]' if multiple }}" id="input-{{ name }}" class="custom-select {{ 'select2' if type == 'select2' }}" {{ 'multiple="multiple"' if type == 'select2' }}>
+        <option>{{ 'select...' if type != 'select2' }}</option>
+        {% if multiple %}
+          {% for o in options %}
+            <option {{ 'selected' if o.id in form[name] }} value="{{ o.id }}">{{ o[optionkey] }}</option>
+          {% endfor %}
+        {% elif value %}
           {% for o in options %}
             <option {{ 'selected' if o.id == value }} value="{{ o.id }}">{{ o[optionkey] }}</option>
           {% endfor %}
