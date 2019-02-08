@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import Organization from './Organization';
 import TrainingCategory from './TrainingCategory';
+import TrainingCourseEntry from './TrainingCourseEntry';
 import TrainingVersion, { TrainingVersionStatus } from './TrainingVersion';
 import User from './User';
 
@@ -59,6 +60,9 @@ export default class Training {
 
   @ManyToMany(type => TrainingCategory, tc => tc.trainings, { eager: true })
   categories: TrainingCategory[];
+
+  @ManyToOne(type => TrainingCourseEntry, tse => tse.training)
+  courses: TrainingCourseEntry[];
 
   /**
    * How long trainees must wait after completing a training to give written
