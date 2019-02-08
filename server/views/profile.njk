@@ -4,8 +4,6 @@
 
 <p class="lead"><i data-feather="user"></i> My Profile</p>
 
-
-
 {% set u = user %}
 
 <h1>{{ u.firstName }} {{ u.lastName }}</h1>
@@ -35,8 +33,8 @@
     <p>You have not yet completed any trainings.</p>
   {% endif %}
 
-  {% for training in trainings %}
-
+  {% for t in trainings %}
+    <p><a href="/trainings/{{ t.id }}">{{ t.title }}</a> ({{ t.lastDate | date }})</p>
   {% endfor %}
   </div>
 </div>
