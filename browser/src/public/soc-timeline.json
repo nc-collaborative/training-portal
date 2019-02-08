@@ -1,0 +1,229 @@
+{
+  "title": {
+    "media": {
+      "url": "/static/img/timeline/Logo2.png",
+      "caption": "Collaborative Interactive Timeline",
+      "credit": "Collaborative"
+    },
+    "text": {
+      "headline": "Collaborative Interactive Timeline",
+      "text": "Here are some important events related to mental health"
+    }
+  },
+  "events": [
+    {
+      "start_date": {
+        "year": "1800"
+      },
+      "end_date": {
+        "year": "1850"
+      },
+      "media": {
+        "url": "/static/img/timeline/moral-treatment-reform.png",
+        "caption": "Moral Treatment Reform",
+        "credit": "Moral Treatment Reform"
+      },
+      "text": {
+        "headline": "Moral Treatment Reform",
+        "text": "<p>Moral treatment was an approach to mental disorder based on humane psychosocial care or moral discipline that emerged in the 18th century and came to the fore for much of the 19th century, deriving partly from psychiatry or psychology and partly from religious or moral concerns.</p>"
+      },
+      "background": {
+        "color": ""
+      }
+    },
+    {
+      "start_date": {
+        "year": "1890"
+      },
+      "end_date": {
+        "year": "1920"
+      },
+      "media": {
+        "url": "/static/img/timeline/mental-hygiene-movement.jpg",
+        "caption": "Moral Hygiene Reform",
+        "credit": "Moral Hygiene Reform"
+      },
+      "text": {
+        "headline": "Mental Hygiene Reform",
+        "text": "<p>The organized treatment of mental illness in the United States began in the early 19th century, a period when many states opened asylums to house individuals who at the time were understood to be suffering from insanity.</p>"
+      },
+      "background": {
+        "color": ""
+      }
+    },
+    {
+      "start_date": {
+        "year": "1909"
+      },
+      "media": {
+        "url": "/static/img/timeline/MHA-formerly.png",
+        "caption": "MHA",
+        "credit": "Mental Health America"
+      },
+      "text": {
+        "headline": "MHA Formerly NMHA",
+        "text": "<p>The National Mental Health Association (NMHA) recently changed its name to Mental Health America (MHA) and says that it addresses all aspects of mental health and mental illness. It is a key sponsor of the annual National Screening for Depression program. For years it has been driven by pharmaceutical company dollars and, in turn, drives their agenda.</p>"
+      },
+      "background": {
+        "color": ""
+      }
+    },
+    {
+      "start_date": {
+        "year": "1908"
+      },
+      "media": {
+        "url": "/static/img/timeline/amindthatfounditself.jpg",
+        "caption": "'A Mind That Found Itself' by Clifford W. Beers",
+        "credit": ""
+      },
+      "text": {
+        "headline": "'A Mind That Found Itself' by Clifford W. Beers",
+        "text": "<p>In the groundbreaking book, Clifford Beers tells what it was like to be institutionalized at a time when mental illness received little attention or respect. 'A Mind that Found Itself' is Beers' own story, as one of five children who all suffered psychological distress and were all confined to mental institutions at one time or another.</p>"
+      },
+      "background": {
+        "color": ""
+      }
+    },
+    {
+      "media": {
+        "url": "/static/img/timeline/janeaddams.jpeg",
+        "caption": "Jane Addams talking with a group of young people visiting her settlement house called The Hull",
+        "credit": "history.com"
+      },
+      "start_date": {
+        "year": "1880"
+      },
+      "end_date": {
+        "year": "1890"
+      },
+      "text": {
+        "headline": "Settlement House Movement",
+        "text": "<p>In 1889, Jane Addams and her friend Ellen Starr founded Hull-House in Chicago, which would eventually become the most famous settlement house in the US. </p>"
+      },
+      "background": {
+        "color": ""
+      }
+    },
+    {
+      "start_date": {
+        "year": "1920"
+      },
+      "end_date": {
+        "year": "1930"
+      },
+      "media": {
+        "url": "/static/img/timeline/votes-for-women.jpg",
+        "caption": "voting for women",
+        "credit": ""
+      },
+      "text": {
+        "headline": "1st Wave of the Feminist Movement",
+        "text": "<p>First-wave feminism was a period of feminist activity and thought that occurred during the 19th and early 20th century throughout the Western world. It focused on legal issues, primarily on gaining the right to vote.</p>"
+      },
+      "background": {
+        "color": ""
+      }
+    },
+    {
+      "start_date": {
+        "year": "1935"
+      },
+      "end_date": {
+        "year": "1938"
+      },
+      "media": {
+        "url": "/static/img/timeline/fdr.jpg",
+        "caption": "Frederick Roosevelt",
+        "credit": ""
+      },
+      "text": {
+        "headline": "FDR New Deal Program Records",
+        "text": "<p>The New Deal refers to a series of domestic programs (lasting roughly 1933-39) implemented during the administration of President Franklin D. Roosevelt to combat the effects of the Great Depression on the U.S. economy.</p>"
+      },
+      "background": {
+        "color": ""
+      }
+    },
+    {
+      "start_date": {
+        "year": "1929"
+      },
+      "end_date": {
+        "year": "1939"
+      },
+      "media": {
+        "url": "/static/img/timeline/depression.jpg",
+        "caption": "The Great Depression",
+        "credit": ""
+      },
+      "text": {
+        "headline": "The Great Depression",
+        "text": "<p>The Great Depression was the worst economic downturn in the history of the industrialized world, lasting from 1929 to 1939. It began after the stock market crash of October 1929, which sent Wall Street into a panic and wiped out millions of investors. Over the next several years, consumer spending and investment dropped, causing steep declines in industrial output and employment as failing companies laid off workers. By 1933, when the Great Depression reached its lowest point, some 15 million Americans were unemployed and nearly half the country’s banks had failed.</p>"
+      },
+      "background": {
+        "color": ""
+      }
+    },
+    {
+      "start_date": {
+        "year": "1939"
+      },
+      "end_date": {
+        "year": "1945"
+      },
+      "media": {
+        "url": "/static/img/timeline/WW2.jpeg",
+        "caption": "World War 2",
+        "credit": ""
+      },
+      "text": {
+        "headline": "WWII",
+        "text": "<p>World War II (often abbreviated to WWII or WW2), also known as the Second World War, was a global war that lasted from 1939 to 1945, although related conflicts began earlier. The vast majority of the world's countries—including all of the great powers—eventually formed two opposing military alliances: the Allies and the Axis. It was the most global war in history; it directly involved more than 100 million people from over 30 countries. In a state of total war, the major participants threw their entire economic, industrial, and scientific capabilities behind the war effort, blurring the distinction between civilian and military resources. World War II was the deadliest conflict in human history, marked by 50 to 85 million fatalities, most of which were civilians in the Soviet Union and China. It included massacres, the genocide of the Holocaust, strategic bombing, starvation, disease, and the only use of nuclear weapons in warfare.</p>"
+      },
+      "background": {
+        "color": ""
+      }
+    },
+    {
+      "start_date": {
+        "year": "1950"
+      },
+      "end_date": {
+        "year": "1953"
+      },
+      "media": {
+        "url": "/static/img/timeline/Korean War.jpg",
+        "caption": "Korean War",
+        "credit": ""
+      },
+      "text": {
+        "headline": "Korean War",
+        "text": "<p>The Korean War was a war between North Korea (with the support of China and the Soviet Union) and South Korea (with the principal support of the United States). The war began on 25 June 1950 when North Korea invaded South Korea[40][41] following a series of clashes along the border.[42][43] The United Nations, with the United States as the principal force, came to the aid of South Korea. China came to the aid of North Korea, and the Soviet Union also gave some assistance to the North.</p>"
+      },
+      "background": {
+        "color": ""
+      }
+    },
+    {
+      "start_date": {
+        "year": "1954"
+      },
+      "end_date": {
+        "year": "1968"
+      },
+      "media": {
+        "url": "/static/img/timeline/CivilRights.jpg",
+        "caption": "The Civil Rights movement",
+        "credit": ""
+      },
+      "text": {
+        "headline": "Civil Rights Movement",
+        "text": "<p>The civil rights movement (also known as the African-American civil rights movement, American civil rights movement and other terms)[b] was a decades long movement with the goal of securing legal rights for African Americans that other Americans already held. With roots starting in the Reconstruction era during the late 19th century, the movement resulted in the largest legislative impacts after the direct actions and grassroots protests organized from the mid-1950s until 1968. Encompassing strategies, various groups, and organized social movements to accomplish the goals of ending legalized racial segregation and discrimination in the United States, the movement, using major nonviolent campaigns, eventually secured new recognition in federal law and federal protection of all Americans.</p>"
+      },
+      "background": {
+        "color": ""
+      }
+    }
+  ]
+}
