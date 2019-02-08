@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { afterLoad } from '../../../utils';
 
 import './edit-version.scss';
 
@@ -17,7 +16,10 @@ const { training, version } = (window as ThisWindow).__hhState;
 
 declare const SurveyEditor: typeof import('surveyjs-editor');
 
-afterLoad(() => {
+swal({ title: 'loading...', allowEscapeKey: false, allowOutsideClick: false });
+swal.showLoading();
+
+$(document).ready(() => {
   const CkEditor_ModalEditor = {
     afterRender(modalEditor, htmlElement) {
       const editor = CKEDITOR.replace(htmlElement, {
@@ -51,8 +53,14 @@ afterLoad(() => {
   const blacklist = [['selectbase', 'choicesByUrl']];
 
   for (const [q, p] of blacklist) {
-    // Survey.JsonObject.metaData.removeProperty(q, p);
+    Survey.JsonObject.metaData.removeProperty(q, p);
   }
+
+  SurveyEditor.SurveyQuestionEditorDefinition.definition.question.properties = [
+    'title',
+    'name',
+    { name: 'isRequired', category: 'checks' },
+  ];
 
   const editorOptions = {
     showJSONEditorTab: false,
@@ -65,11 +73,8 @@ afterLoad(() => {
       'dropdown',
       'boolean',
       'matrix',
-      'matrixdropdown',
-      'panel',
-      'paneldynamic',
       'radiogroup',
-      'rating',
+      'comment',
     ],
   };
 
@@ -108,6 +113,7 @@ afterLoad(() => {
   editor.toolbox.allowExpandMultipleCategories = true;
 
   editor.render('survey-builder');
+  swal.close(); // close loading modal
   editor.toolbox.expandAllCategories();
 
   editor.text = JSON.stringify(version.content);
@@ -128,13 +134,7 @@ afterLoad(() => {
   });
 
   editor.saveSurveyFunc = async function(saveNo, callback) {
-    // console.log({ saveNo });
-    // console.log({ text: editor.text });
-
-    // console.log({ survey: editor.survey });
-
     const $saveBtn = $('.svd_save_btn');
-
     $saveBtn.tooltip({ title: 'saving...', trigger: 'manual' }).tooltip('show');
 
     try {
@@ -150,13 +150,25 @@ afterLoad(() => {
         })
         .tooltip('show');
       setTimeout(() => $saveBtn.tooltip('dispose'), 2000);
+
+      callback(saveNo, true);
     } catch (e) {
+      $saveBtn.tooltip('dispose');
       callback(saveNo, false);
       swal({
         type: 'error',
-        text: 'Could not save, please try again later.',
+        text: 'Could not save.',
       });
-      console.error(e);
     }
   };
+
+  editor.showState = true;
+
+  window.addEventListener('beforeunload', e => {
+    if (editor.state != 'saved') {
+      e.preventDefault();
+      e.returnValue =
+        'Are you sure you want to leave? Some changes may be unsaved.';
+    }
+  });
 });
