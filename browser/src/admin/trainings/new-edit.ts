@@ -18,7 +18,7 @@ $(document).ready(() => {
 
   const passContainer = passPct.closest('.form-group') as HTMLElement;
 
-  isGraded!.addEventListener('change', event => {
+  function toggleShowPassPctInput() {
     if (isGraded.checked) {
       passContainer.style.removeProperty('display');
       passPct.disabled = false;
@@ -28,5 +28,8 @@ $(document).ready(() => {
       passPct.disabled = true;
       passPct.required = false;
     }
-  });
+  }
+
+  isGraded!.addEventListener('change', toggleShowPassPctInput);
+  toggleShowPassPctInput();
 });

@@ -1,4 +1,4 @@
-{% macro input(name, label=name, type='text', value='', required=false, classlist=[], message='', form, attrs={}, styles={}, options=[], optionkey='name', multiple=false) %}
+{% macro input(name, label=name, type='text', value='', required=false, classlist=[], message='', form, attrs={}, styles={}, options=[], optionkey='name', multiple=false, initHide=false) %}
 
   {% set error = false %}
   {% set invalid = false %}
@@ -23,7 +23,7 @@
     {% set _ = classlist.push('form-control') %}
   {% endif %}
 
-  <div class="form-group {{ 'form-check' if type == 'checkbox' }}">
+  <div class="form-group {{ 'form-check' if type == 'checkbox' }}" {% if initHide %} style="display: none;" {% endif %}>
 
     {% if type == 'checkbox' %}
       <input

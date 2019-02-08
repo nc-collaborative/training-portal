@@ -21,8 +21,6 @@
     <p>Sorry, there was an error saving the training. Please check the form for
     errors below and submit again.</p>
     {% if error %}<p>{{ error }}</p>{% endif %}
-    <pre>{{ error | dump(2) }}</pre>
-    <pre>{{ form.errors | dump(2) }}</pre>
   </div>
 {% endif %}
 
@@ -34,7 +32,7 @@
   {{ input(name='title', label='Title', required=true, form=form) }}
   {{ input(name='hours', label='Hours', type='number', form=form, attrs={min:0}) }}
   {{ input(name='isGraded', label='Graded', type='checkbox', form=form) }}
-  {{ input(name='passPercent', label='Passing %', type='number', attrs={min:0, max:100}, form=form, style={'visibility': 'hidden'}) }}
+  {{ input(name='passPercent', label='Passing %', type='number', attrs={min:0, max:100}, form=form, initHide=true) }}
   {{ input(name='shortDescription', label='Short Description', type='textarea', form=form) }}
   {{ input(name='longDescription', label='Long Description', required=true, type='textarea', form=form, styles={'visibility': 'hidden'}) }}
   {{ input(name='organizations', label='Affiliated Organizations', type='select2', form=form, multiple=true, options=orgs ) }}
@@ -46,5 +44,5 @@
 
 </div>{# /.container #}
 
-<script src="/scripts/admin/trainings/new-edit.js"></script>
+<script defer src="/scripts/admin/trainings/new-edit.js"></script>
 {% endblock %}

@@ -19,7 +19,7 @@ router.get('/:tid', async ctx => {
 
   const training = await Trainings.findOne({
     where: { id: tid },
-    relations: ['versions', 'versions.attempts'],
+    relations: ['organizations', 'versions', 'versions.attempts'],
   });
 
   if (!training) return (ctx.status = 404);

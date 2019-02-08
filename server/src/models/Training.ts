@@ -43,16 +43,16 @@ export default class Training {
   @ManyToMany(type => Organization, org => org.trainings)
   organizations: Organization[];
 
-  @Column('int')
+  @Column('int', { nullable: true })
   hours: number;
 
   @Column({ type: 'enum', enum: TrainingStatus })
   status: string;
 
   @Column()
-  isGraded: boolean;
+  isGraded: boolean = false;
 
-  @Column('int')
+  @Column('int', { nullable: true })
   passPercent: number;
 
   @OneToMany(type => TrainingVersion, tv => tv.training)
@@ -89,12 +89,18 @@ export default class Training {
     longDescription: valid.text,
     hours: Joi.number()
       .integer()
-      .min(1),
+      .min(1)
+      .empty('')
+      .default(null),
     isGraded: Joi.boolean(),
     passPercent: Joi.number()
       .integer()
       .min(1)
-      .max(100),
-    organizations: Joi.array().items(Joi.number()),
+      .max(100)
+      .empty('')
+      .default(null),
+    organizations: Joi.array()
+      .items(Joi.number())
+      .default([]),
   });
 }

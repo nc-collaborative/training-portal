@@ -25,7 +25,10 @@ router.param('tid', async (id, ctx, next) => {
 });
 
 router.get('/new', async ctx => {
-  await ctx.render('admin/trainings/new-training', { isNew: true });
+  await ctx.render('admin/trainings/edit-training', {
+    form: { organizations: [] },
+    isNew: true,
+  });
 });
 
 router.post('/new', async ctx => {
@@ -33,19 +36,20 @@ router.post('/new', async ctx => {
 
   const { error, value } = Training.schema.validate(form);
   if (error) {
-    return ctx.render('admin/trainings/new-training', {
+    return ctx.render('admin/trainings/edit-training', {
       form: { ...form, errors: error.details },
       isNew: true,
     });
   }
 
   const training = Trainings.create(value as Partial<Training>);
+  training.organizations = value.organizations.map(oid => ({ id: oid }));
 
   try {
     const newTraining = await Trainings.save(training);
-    ctx.redirect(`/admin/trainings/${newTraining.id}/edit`);
+    ctx.redirect(`/admin/trainings/${newTraining.id}`);
   } catch (err) {
-    await ctx.render('admin/trainings/new-training', {
+    await ctx.render('admin/trainings/edit-training', {
       error: err.message,
       form: { ...value },
       isNew: true,
