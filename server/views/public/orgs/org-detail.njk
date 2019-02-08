@@ -24,7 +24,7 @@
 <div class="container">
 
 <p class="lead">Organization:</p>
-<h1>{{ org.longName }}</h1>
+<h1>{{ org.name }}</h1>
 
 {% if org.logoPath %}<img id="orgLogo" src="{{ org.logoPath }}"/>{% endif %}
 
@@ -38,11 +38,10 @@
   <p><strong>website:</strong> <a href="{{ org.url }}" target="_blank" rel="noopener">{{ org.url }}</a></p>
 {% endif %}
 
-<h2 style="margin-top: 1em;">Affiliated Trainings</h2>
 
-{% if org.trainings.length == 0 %}
-  <p class="alert alert-info text-center">No trainings</p>
-{% else %}
+{% if org.trainings.length %}
+  <h2 style="margin-top: 1em;">Affiliated Trainings</h2>
+  
   <table id="trainings-table" class="table table-sm">
     <thead>
       <tr>

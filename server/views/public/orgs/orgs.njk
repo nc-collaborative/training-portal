@@ -20,9 +20,9 @@
 
 <h1>Affiliated Organizations</h1>
 
-<div class="d-flex org-container">
+<div class="d-flex flex-wrap org-container">
   {% for o in orgs %}
-    <div class="card m-2">
+    <div class="card m-2 shadow-sm">
       {% if o.logoPath %}<img src="{{ o.logoPath }}" class="card-img-top" alt="organization logo"/>{% endif %}
       <div class="card-body">
         <div class="h5 card-title">{{ o.name }}</div>
