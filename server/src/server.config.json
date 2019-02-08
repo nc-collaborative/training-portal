@@ -14,7 +14,7 @@
   "defaultDateFormat": "h:mma MMM. Do YYYY",
   "contactEmail": "someone@collab.test",
   "mail": {
-    "replyTo": "no-reply@collab.test",
+    "replyTo": "\"Helping Hands Training [TEST]\" <no-reply@collab.test>",
     "useSendmail": false,
     "smtp": {
       "host": "localhost",

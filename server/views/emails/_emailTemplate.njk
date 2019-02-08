@@ -14,5 +14,9 @@
 <body>
   {% block body %}
   {% endblock %}
+
+  {% if NODE_ENV != 'production' %}
+    <p><code style="color: red;">[SENT FROM TEST ENVIRONMENT]</code></p>
+  {% endif %}
 </body>
 </html>

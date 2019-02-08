@@ -68,7 +68,7 @@ const render = function(
 
 const mailer = {
   async send(message: Partial<MailMessage>): Promise<MailerResponse> {
-    if (!message.from) message.from = `no-reply@${config.host}`;
+    if (!message.from) message.from = config.mail.replyTo;
 
     if (message.template) {
       message.html = await render(message.template, message.vars);
@@ -92,7 +92,7 @@ const mailer = {
   ) {
     return mailer.send({
       to: user.email,
-      subject: 'Verify your account information',
+      subject: 'Verify your email address',
       template: 'user-registration.njk',
       vars: { user, isNewAccount: opts.isNewAccount, newPass: opts.newPass },
     });
