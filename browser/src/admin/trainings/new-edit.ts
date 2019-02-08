@@ -4,6 +4,8 @@ import { afterLoad } from '../../utils';
 import './new-edit.scss';
 
 afterLoad(() => {
+  $('.select2').select2();
+
   const editor = CKEDITOR.replace('input-longDescription');
 
   editor.once('instanceReady', ({ editor: { element } }) => {

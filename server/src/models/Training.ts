@@ -39,8 +39,8 @@ export default class Training {
   @ManyToOne(type => User)
   author: User;
 
-  @ManyToOne(type => Organization)
-  organization: Organization;
+  @ManyToMany(type => Organization, org => org.trainings)
+  organizations: Organization[];
 
   @Column('int')
   hours: number;
@@ -91,5 +91,6 @@ export default class Training {
       .integer()
       .min(1)
       .max(100),
+    organizations: Joi.array().items(Joi.number()),
   });
 }

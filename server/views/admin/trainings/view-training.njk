@@ -47,12 +47,21 @@
   <tr><th>graded</th><td>{{ 'yes' if training.isGraded else 'no' }}</td></tr>
   {% if training.isGraded %}<tr><th>passing grade</th><td>{{ training.passPercent }}&thinsp;%</td></tr>{% endif %}
   <tr><th>short description</th><td>{{ training.shortDescription | default('<em>none</em>' | safe, true) }}</td></tr>
-  <tr><th>author</th><td>{{ training.author | default('<em>none</em>' | safe) }}</td></tr>
-  <tr><th>organization</th><td>{{ training.organization | default('<em>none</em>' | safe) }}</td></tr>
+  {# <tr><th>author</th><td>{{ training.author | default('<em>none</em>' | safe) }}</td></tr> #}
+  <tr>
+    <th>organizations</th>
+    <td>
+      {% for org in training.organizations %}
+        <a href="/orgs/{{ org.id }}">{{ org.shortName or org.name }}</a>{{ ', ' if not loop.last }}
+      {% else %}
+        <em>none</em>
+      {% endfor %}
+    </td>
+  </tr>
 </table>
 
 <p><strong>long description:</strong></p>
-<div class="training-long-description">{{ (training.longDescription or '<em>none</em>') | safe }}</div>
+<div class="training-long-description rounded shadow-sm">{{ (training.longDescription or '<em>none</em>') | safe }}</div>
 
 <p class="text-right p-2">
   <a href="./{{ training.id }}/edit" class="btn btn-sm btn-primary"><i data-feather="edit-2"></i> Edit</a>

@@ -2,13 +2,22 @@ import Router from 'koa-router';
 import { getRepository } from 'typeorm';
 
 import Training from 'models/Training';
+import Organization from 'models/Organization';
 
 const Trainings = getRepository(Training);
+const Organizations = getRepository(Organization);
 
 const router = new Router().prefix('/admin/trainings');
 
+router.use(async (ctx, next) => {
+  ctx.state.orgs = await Organizations.find();
+  return next();
+});
+
 router.param('tid', async (id, ctx, next) => {
-  const training = await Trainings.findOne(id);
+  const training = await Trainings.findOne(id, {
+    relations: ['organizations'],
+  });
   if (!training) throw ctx.throw(404);
 
   ctx.state.training = training;
@@ -45,8 +54,9 @@ router.post('/new', async ctx => {
 });
 
 router.get('/:tid/edit', async ctx => {
+  const { training } = ctx.state;
   return ctx.render('admin/trainings/edit-training', {
-    form: { ...ctx.state.training },
+    form: { ...training, organizations: training.organizations.map(o => o.id) },
   });
 });
 
@@ -62,6 +72,9 @@ router.post('/:tid/edit', async ctx => {
   }
 
   const submittedTraining = Trainings.merge(ctx.state.training, value);
+  submittedTraining.organizations = value.organizations.map(oid => ({
+    id: oid,
+  }));
 
   try {
     const updatedTraining = await Trainings.save(submittedTraining);

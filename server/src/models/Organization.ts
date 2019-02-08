@@ -31,7 +31,7 @@ export default class Organization {
   @Column('varchar', { nullable: true })
   logoPath: string;
 
-  @OneToMany(type => Training, t => t.organization, { eager: true })
+  @ManyToMany(type => Training, t => t.organizations, { eager: true })
   @JoinTable()
   trainings: Training[];
 

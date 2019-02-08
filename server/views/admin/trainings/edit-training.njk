@@ -5,6 +5,7 @@
 
 {% block head %}
   {% include 'partials/_ckEditorAssets.njk' %}
+  {% include 'partials/_select2Assets.njk' %}
 {% endblock %}
 
 {% block body %}
@@ -28,7 +29,7 @@
 {% if isNew %}
   <form action="/admin/trainings/new" method="post">
 {% else %}
-  <form action="/admin/trainings/{{ form.id }}/edit" method="post">
+  <form action="/admin/trainings/{{ training.id }}/edit" method="post">
 {% endif %}
   {{ input(name='title', label='Title', required=true, form=form) }}
   {{ input(name='hours', label='Hours', type='number', form=form, attrs={min:0}) }}
@@ -36,7 +37,7 @@
   {{ input(name='passPercent', label='Passing %', type='number', attrs={min:0, max:100}, form=form, style={'visibility': 'hidden'}) }}
   {{ input(name='shortDescription', label='Short Description', type='textarea', form=form) }}
   {{ input(name='longDescription', label='Long Description', required=true, type='textarea', form=form, styles={'visibility': 'hidden'}) }}
-
+  {{ input(name='organizations', label='Affiliated Organizations', type='select2', form=form, multiple=true, options=orgs ) }}
   <div class="d-flex justify-content-end">
     <a href="/admin/trainings/{{ form.id }}" class="btn btn-secondary m-2">Cancel</a>
     <button class="btn btn-primary m-2" type="submit">Save</button>
