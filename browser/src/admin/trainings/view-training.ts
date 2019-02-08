@@ -1,6 +1,5 @@
 import Axios from 'axios';
-import swal from 'sweetalert2';
-import { afterLoad, wait } from '../../utils';
+declare const swal: typeof import('sweetalert2').default;
 
 const confirm = swal.mixin({
   reverseButtons: true,

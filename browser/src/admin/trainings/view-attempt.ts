@@ -1,11 +1,11 @@
-import * as Survey from 'survey-jquery';
-import 'survey-jquery/survey.css';
 import { afterLoad } from '../../utils';
 
+declare const Survey: typeof import('survey-jquery');
+
 interface Models {
-  Training: import ('../../../server/src/models/Training').default;
-  TrainingAttempt: import ('../../../server/src/models/TrainingAttempt').default;
-  TrainingVersion: import ('../../../server/src/models/TrainingVersion').default;
+  Training: import('../../../server/src/models/Training').default;
+  TrainingAttempt: import('../../../server/src/models/TrainingAttempt').default;
+  TrainingVersion: import('../../../server/src/models/TrainingVersion').default;
 }
 
 declare global {

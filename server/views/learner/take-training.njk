@@ -2,6 +2,7 @@
 
 {% block head %}
   <link rel="stylesheet" href="/scripts/learner/take-training.css"/>
+  {% include 'partials/_surveyTakerAssets.njk' %}
   <script>
     window.__hhState = {
       training: {{ training | dump | safe }},

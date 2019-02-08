@@ -1,20 +1,13 @@
 import axios from 'axios';
-import $ from 'jquery';
-import * as Survey from 'survey-jquery';
-import 'survey-jquery/survey.css';
-import swal from 'sweetalert2';
 import { afterLoad } from '../utils';
 
-interface Models {
-  Training: import ('../../../server/src/models/Training').default;
-  TrainingAttempt: import ('../../../server/src/models/TrainingAttempt').default;
-  TrainingVersion: import ('../../../server/src/models/TrainingVersion').default;
-}
+declare const swal: typeof import('sweetalert2').default;
+declare const Survey: typeof import('survey-jquery');
 
-declare global {
-  interface JQuery {
-    Survey: (obj: object) => JQuery;
-  }
+interface Models {
+  Training: import('../../../server/src/models/Training').default;
+  TrainingAttempt: import('../../../server/src/models/TrainingAttempt').default;
+  TrainingVersion: import('../../../server/src/models/TrainingVersion').default;
 }
 
 interface PageWindow extends Window {
@@ -24,7 +17,6 @@ interface PageWindow extends Window {
     quitTraining: () => void;
   };
 }
-// }
 
 // Load state injected server-side by njk
 const { training, version } = (window as PageWindow).__hhState;

@@ -1,20 +1,21 @@
-import Axios from 'axios';
-import { Survey } from 'survey-knockout';
-import swal from 'sweetalert2';
-import { afterLoad, wait } from '../../../utils';
+import axios from 'axios';
+import { afterLoad } from '../../../utils';
 
 import './edit-version.scss';
 
+declare const Survey: typeof import('survey-knockout');
+declare const swal: typeof import('sweetalert2').default;
+
 interface ThisWindow extends Window {
   __hhState: {
-    version: import ('../../../models/TrainingVersion').default;
-    training: import ('../../../models/Training').default;
+    version: import('../../../models/TrainingVersion').default;
+    training: import('../../../models/Training').default;
   };
 }
 
 const { training, version } = (window as ThisWindow).__hhState;
 
-declare const SurveyEditor: typeof import ('surveyjs-editor');
+declare const SurveyEditor: typeof import('surveyjs-editor');
 
 afterLoad(() => {
   const CkEditor_ModalEditor = {
@@ -137,7 +138,7 @@ afterLoad(() => {
     $saveBtn.tooltip({ title: 'saving...', trigger: 'manual' }).tooltip('show');
 
     try {
-      await Axios.put(
+      await axios.put(
         `/admin/trainings/${training.id}/versions/${version.id}/update`,
         { content: editor.text },
       );

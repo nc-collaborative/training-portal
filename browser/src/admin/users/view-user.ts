@@ -1,6 +1,5 @@
-import Axios from 'axios';
-import swal from 'sweetalert2';
-import { afterLoad } from '../../utils';
+import axios from 'axios';
+declare const swal: typeof import('sweetalert2').default;
 
 window.reverify = async function reverify(uid: number) {
   const { dismiss } = await swal({
@@ -14,7 +13,7 @@ window.reverify = async function reverify(uid: number) {
   if (dismiss) return;
 
   try {
-    await Axios.post(`/admin/users/${uid}/sendverification`);
+    await axios.post(`/admin/users/${uid}/sendverification`);
     swal({ type: 'success', text: 'Verification email sent' });
   } catch (err) {
     swal({ type: 'error', text: String(err) });

@@ -1,9 +1,6 @@
-import '../../../lib/ckeditor/ckeditor';
-import { afterLoad } from '../../utils';
-
 import './new-edit.scss';
 
-afterLoad(() => {
+$(document).ready(() => {
   $('.select2').select2();
 
   const editor = CKEDITOR.replace('input-longDescription');
