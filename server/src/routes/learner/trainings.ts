@@ -23,16 +23,9 @@ router.get('/trainings/:tid', async ctx => {
   let { tid } = ctx.params;
   tid = parseInt(tid, 10);
 
-  const training = await Trainings.createQueryBuilder('training')
-    .innerJoinAndMapOne(
-      'training.currentVersion',
-      'training.versions',
-      'version',
-      'version.status = :status',
-      { status: TrainingVersionStatus.Active },
-    )
-    .where('training.id = :tid', { tid })
-    .getOne();
+  const training = await Trainings.findOne({
+    where: { id: tid, status: TrainingStatus.Active },
+  });
 
   if (!training) throw ctx.throw(404);
 
@@ -63,7 +56,7 @@ router.get('/trainings/:tid/take', async ctx => {
   let { tid } = ctx.params;
   tid = parseInt(tid, 10);
 
-  const aid = ctx.params.aid;
+  const aid = ctx.query.aid;
   let attempt;
 
   if (aid) {
