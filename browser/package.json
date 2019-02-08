@@ -16,27 +16,29 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/bootstrap": "^4.2.0",
-    "@types/ckeditor": "^4.9.5",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "@types/bootstrap": "^4.2.1",
+    "@types/ckeditor": "^4.9.6",
     "@types/datatables.net": "^1.10.14",
     "@types/select2": "^4.0.47",
-    "babel-core": "^6.26.3",
-    "babel-plugin-transform-runtime": "^6.23.0",
+    "autoprefixer": "^9.4.7",
     "node-sass": "^4.11.0",
     "parcel": "^1.11.0",
-    "sass": "^1.16.0",
-    "select2": "^4.0.6-rc.1",
-    "typescript": "^3.2.2"
+    "postcss": "^7.0.14",
+    "sass": "^1.17.0",
+    "typescript": "^3.3.3"
   },
   "dependencies": {
+    "select2": "^4.0.6-rc.1",
     "axios": "^0.18.0",
     "bootstrap": "^4.2.1",
     "ckeditor": "^4.11.2",
-    "feather-icons": "^4.10.0",
+    "feather-icons": "^4.17.0",
     "jquery": "^3.3.1",
-    "popper.js": "^1.14.6",
-    "survey-jquery": "^1.0.63",
-    "surveyjs-editor": "^1.0.64",
+    "popper.js": "^1.14.7",
+    "survey-jquery": "^1.0.68",
+    "surveyjs-editor": "^1.0.68",
     "sweetalert2": "^7.33.1"
   }
 }
