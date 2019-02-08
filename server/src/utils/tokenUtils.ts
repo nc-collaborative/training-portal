@@ -1,8 +1,13 @@
+const alphabet = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
+// base58
+
 export function randToken(length = 16) {
   let str = '';
+  let max = alphabet.length;
+
   while (str.length < length) {
-    str += (Math.random() * 2).toString(36).slice(2);
+    str += alphabet[Math.floor(Math.random() * max)];
   }
-  const token = str.slice(0, length);
-  return token;
+
+  return str;
 }
