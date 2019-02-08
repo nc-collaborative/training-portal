@@ -21,7 +21,8 @@
 
     "baseUrl": "./src",
     "paths": {
-      "models/*": ["models/*"]
+      "models/*": ["models/*"],
+      "utils/*": ["utils/*"]
     },
 
     "outDir": "./dist"
