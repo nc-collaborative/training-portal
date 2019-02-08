@@ -27,9 +27,6 @@ export default class TrainingVersion {
   @Column('json')
   content: VersionContent;
 
-  @Column('json')
-  answer: object;
-
   @Column({
     type: 'enum',
     enum: TrainingVersionStatus,
