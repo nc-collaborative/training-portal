@@ -18,6 +18,7 @@ import errorMiddleware from './middleware/errors';
 import nunjucksMiddlware from './middleware/nunjucks';
 
 const app = new Koa();
+app.proxy = true;
 
 app.use(helmet());
 
@@ -32,7 +33,6 @@ app.use(errorMiddleware);
 
 (async () => {
   const db = await database;
-  const Users = db.getRepository(User);
 
   const router = new Router();
 
@@ -73,7 +73,17 @@ app.use(errorMiddleware);
 })().catch(err => {
   logger.error(err);
   logger.error('UNABLE TO START SERVER');
-  console.error(err);
   process.exit(1);
 });
 
+process.on('beforeExit', () => {
+  logger.info('process exiting');
+});
+
+process.on('uncaughtException', e => {
+  logger.error(e);
+});
+
+process.on('unhandledRejection', e => {
+  logger.error(e);
+});
