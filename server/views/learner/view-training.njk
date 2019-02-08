@@ -17,12 +17,17 @@
 <p class="lead">{{ training.shortDescription }}</p>
 
 <table class="table" style="width: auto;">
+  {% if training.hours %}
   <tr>
-    <th>Hour credits:</th><td>{{ training.hours }}</td>
+    <th>Credit hours:</th><td>{{ training.hours }}</td>
   </tr>
+  {% endif %}
+
+  {% if training.isGraded %}
   <tr>
     <th>Score needed to pass:</th><td>{{ training.passPercent }} %</td>
   </tr>
+  {% endif %}
 </table>
 
 <h2 class="h3">Description</h2>

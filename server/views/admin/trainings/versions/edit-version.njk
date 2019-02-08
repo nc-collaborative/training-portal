@@ -22,7 +22,7 @@
 <p>updated {{ version.updatedOn | date }}</p>
 
 {% if not canEdit %}
-  <div class="alert alert-warning">This version cannot be edited.</div>
+  <div class="alert alert-warning">This revision cannot be edited because learners have submitted answers to it.</div>
 {% endif %}
 
 
