@@ -1,19 +1,20 @@
 import Router from 'koa-router';
-import { getRepository } from 'typeorm';
-import Training from '../../../models/Training';
-import TrainingVersion from '../../../models/TrainingVersion';
 
-const router = new Router();
+import { getRepository } from 'typeorm';
+import Training from 'models/Training';
+import TrainingVersion from 'models/TrainingVersion';
 
 const Trainings = getRepository(Training);
 const TrainingVersions = getRepository(TrainingVersion);
 
-router.get('/admin/trainings', async ctx => {
+const router = new Router().prefix('/admin/trainings');
+
+router.get('/', async ctx => {
   const trainings = await Trainings.find();
   await ctx.render('admin/trainings/index', { trainings });
 });
 
-router.get('/admin/trainings/:tid', async ctx => {
+router.get('/:tid', async ctx => {
   const tid = parseInt(ctx.params.tid, 10);
 
   const training = await Trainings.findOne({

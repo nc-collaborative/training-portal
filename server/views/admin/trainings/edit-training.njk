@@ -13,25 +13,23 @@
 
 <div class="container">
 
-<p class="lead">Edit Training
-{% if didUpdate %}
-  <div id="didupdate" class="alert alert-success collapse"
-    style="float: right; margin: 1em;">
-    ✔︎ training saved
+<p class="lead">{{ 'New' if isNew else 'Edit' }} Training</p>
+
+{% if error or form.errors %}
+  <div class="alert alert-danger">
+    <p>Sorry, there was an error saving the training. Please check the form for
+    errors below and submit again.</p>
+    {% if error %}<p>{{ error }}</p>{% endif %}
+    <pre>{{ error | dump(2) }}</pre>
+    <pre>{{ form.errors | dump(2) }}</pre>
   </div>
-  <div class="clearfix"></div>
-  <script>flashCollapse('#didupdate');</script>
-{% endif %}
-</p>
-
-<h1>{{ training.title }}</h1>
-
-{% if form.error %}
-  <div class="alert alert-danger"><pre>{{ form.error | dump(2) }}</pre></div>
 {% endif %}
 
-<form action="/admin/trainings/{{ form.id }}/edit" method="post">
-
+{% if isNew %}
+  <form action="/admin/trainings/new" method="post">
+{% else %}
+  <form action="/admin/trainings/{{ form.id }}/edit" method="post">
+{% endif %}
   {{ input(name='title', label='Title', required=true, form=form) }}
   {{ input(name='hours', label='Hours', type='number', form=form, attrs={min:0}) }}
   {{ input(name='isGraded', label='Graded', type='checkbox', form=form) }}

@@ -11,6 +11,9 @@ import TrainingCategory from './TrainingCategory';
 import TrainingVersion, { TrainingVersionStatus } from './TrainingVersion';
 import User from './User';
 
+import Joi from 'joi';
+import * as valid from 'utils/validation';
+
 import config from '../server.config.json';
 
 export enum TrainingStatus {
@@ -75,4 +78,18 @@ export default class Training {
   get publicURL() {
     return `https://${config.host}/training/${this.id}`;
   }
+
+  static schema = Joi.object().keys({
+    title: valid.varchar.required(),
+    shortDescription: valid.varchar,
+    longDescription: valid.text,
+    hours: Joi.number()
+      .integer()
+      .min(1),
+    isGraded: Joi.boolean(),
+    passPercent: Joi.number()
+      .integer()
+      .min(1)
+      .max(100),
+  });
 }
