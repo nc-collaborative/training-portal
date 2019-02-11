@@ -105,6 +105,8 @@ export default class User {
     lastName: valid.varchar.required().label('Last name'),
     email: valid.varchar.email().required(),
     gender: valid.varchar.lowercase(),
-    countyId: Joi.number(),
+    countyId: Joi.number()
+      .empty('')
+      .default(null),
   });
 }

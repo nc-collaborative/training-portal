@@ -13,8 +13,6 @@
   <dd><code>{{ u.email }}</code></dd>
 </dl>
 
-<h2>Demographics</h2>
-
 <dl>
   <dt>County</dt>
   <dd>{{ u.county.name }}</dd>
@@ -24,6 +22,12 @@
   <dd>{{ u.gender }}</dd>
   {% endif %}
 </dl>
+
+<div class="py-3">
+  <a href="/profile/edit" class="btn btn-primary">Edit</a>
+</div>
+
+<hr/>
 
 <h2>My Trainings</h2>
 

@@ -1,0 +1,41 @@
+{% extends '_template.njk' %}
+
+{% from 'macros/input.njk' import input %}
+{% set u = user %}
+
+{% block head %}
+  {% include 'partials/_select2Assets.njk'%}
+{% endblock %}
+
+{% block body %}
+<div class="container"><div class="row"><div class="col-sm-12 col-md-6">
+
+<p class="lead"><i data-feather="user"></i> Edit Profile</p>
+
+{% if error or form.errors.length %}
+  <div class="alert alert-danger">
+    <p>Your profile could not be saved. Please check the form below for errors and try submitting again.</p>
+    {% if error %}{{ error }}{% endif %}
+  </div>
+{% endif %}
+
+<form action="/profile/edit" method="POST">
+
+  {% if form.county %}{% set form = form|setProp('countyId', form.county.id) %}{% endif %}
+
+  {{ input(name='firstName', label='First Name', required=true, form=form, attrs={maxlength: 255}) }}
+  {{ input(name='lastName', label='Last Name', required=true, form=form, attrs={maxlength: 255}) }}
+  {{ input(name='email', label='Email', type='email', required=true, form=form, attrs={maxlength: 255}) }}
+  {{ input(name='countyId', label='NC County', type='select2', options=counties, form=form) }}
+  {{ input(name='gender', label='Gender', message='optional', form=form) }}
+
+  <div class="d-flex justify-content-end">
+    <a href="/profile" class="btn btn-secondary mx-2">Cancel</a>
+    <button type="submit" class="btn btn-primary mx-2">Save</button>
+  </div>
+</form>
+
+</div></div></div>
+
+<script defer src="/scripts/user/profile-edit.js"></script>
+{% endblock %}
