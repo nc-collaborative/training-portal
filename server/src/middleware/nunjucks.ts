@@ -1,7 +1,7 @@
 import path from 'path';
 
 import nunjucks from 'koa-nunjucks-async';
-import njDateFilter from 'nunjucks-date-filter';
+import njDateFilter from 'nunjucks-date-filter-local';
 
 import config from '../server.config.json';
 import * as njFilters from '../utils/njk-filters';
