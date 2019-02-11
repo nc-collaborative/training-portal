@@ -106,7 +106,11 @@ export default class User {
     email: valid.varchar.email().required(),
     gender: valid.varchar.lowercase(),
     countyId: Joi.number()
+      .integer()
       .empty('')
       .default(null),
+    userRoleIds: Joi.array()
+      .items(Joi.number().integer())
+      .default([]),
   });
 }

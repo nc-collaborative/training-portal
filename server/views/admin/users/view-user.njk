@@ -20,7 +20,9 @@
 
 <h1>{{ user.firstName }} {{ user.lastName }}</h1>
 
-<table id="userinfo" class="table table-sm">
+<h2>Profile</h2>
+
+<table id="userinfo" class="table">
   <tr>
     <th>county</th>
     <td>{{ user.county.name }}</td>
@@ -34,6 +36,13 @@
   </tr>
 </table>
 
+<h3>Roles</h3>
+{% for role in user.userRoles %}
+  <span class="badge badge-pill badge-info" style="font-size: 1rem;">{{ role.name }}</span>
+{% else %}
+  <em>none</em>
+{% endfor %}
+
 {% if user.status == 'unverified' %}
   <div class="alert alert-warning text-center">
     <p>This user’s email address is not yet verified.</p>
@@ -41,7 +50,7 @@
   </div>
 {% endif %}
 
-<div class="m-2 text-right">
+<div class="m-2 text-center">
   <a href="./{{ user.id }}/edit" class="btn btn-primary">Edit</a>
 </div>
 

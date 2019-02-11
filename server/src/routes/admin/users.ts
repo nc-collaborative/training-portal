@@ -3,19 +3,25 @@ import { getRepository } from 'typeorm';
 
 import County from 'models/County';
 import User, { UserStatus } from 'models/User';
+import UserRole from 'models/UserRole';
 
 import mailer from '../../mailer';
-import { validate } from '../../validator';
 
-const Users = getRepository(User);
 const Counties = getRepository(County);
+const Users = getRepository(User);
+const UserRoles = getRepository(UserRole);
 
 const router = new Router({
   prefix: '/admin/users',
 });
 
 router.use(async (ctx, next) => {
-  ctx.state.counties = await Counties.find();
+  const [counties, userRoles] = await Promise.all([
+    Counties.find(),
+    UserRoles.find(),
+  ]);
+  ctx.state.counties = counties;
+  ctx.state.userRoles = userRoles;
   return next();
 });
 
@@ -66,12 +72,17 @@ router.post('/:uid/sendverification', async ctx => {
  * Edit user page
  */
 router.get('/:uid/edit', async ctx => {
-  const { user, counties } = ctx.state;
-  await ctx.render('admin/users/edit-user', { user, counties, form: user });
+  const { user, counties, userRoles } = ctx.state;
+  await ctx.render('admin/users/edit-user', {
+    user,
+    counties,
+    userRoles,
+    form: { ...user, userRoleIds: user.userRoles.map(r => r.id) },
+  });
 });
 
 router.post('/:uid/edit', async ctx => {
-  const { user, counties } = ctx.state;
+  const { user, counties, userRoles } = ctx.state;
   const form = ctx.request.body;
 
   let { value, error } = User.schema.validate(form);
@@ -82,15 +93,22 @@ router.post('/:uid/edit', async ctx => {
       form: { ...value, errors: error.details },
       user: value,
       counties,
+      userRoles,
     });
   }
 
   const changedEmail = user.email != value.email;
-  const submittedUser = Users.merge(user, value);
+  const submittedUser = Users.merge(user, value, {
+    county: { id: value.countyId },
+  });
 
-  // HACK: maybe there's a better way to do this with TypeORM? But for now,
-  // this is the easiest way to make sure changes to county are saved
-  submittedUser.county = counties.find(c => c.id == value.countyId)!;
+  submittedUser.userRoles = value.userRoleIds.map(id => ({ id }));
+
+  // Special case: admins should not be able to accidentally remove their own
+  // admin access
+  if (user.id == ctx.state.authUser.id) {
+    submittedUser.userRoles.push({ id: 1 } as UserRole);
+  }
 
   try {
     if (changedEmail) {
@@ -126,6 +144,7 @@ router.post('/:uid/edit', async ctx => {
       },
       user: value,
       counties,
+      userRoles,
     });
   }
 });
