@@ -36,7 +36,7 @@
       <textarea {{ inputTag(name, required, type, classlist, invalid, form, styles, attrs) }}>{{ form[name] or value }}</textarea>
     {% elif type == 'select' or type == 'select2' %}
       <label for="input-{{ name }}">{{ label }}</label>
-      <select name="{{ name }}{{ '[]' if multiple }}" id="input-{{ name }}" class="custom-select {{ 'select2' if type == 'select2' }}" {{ 'multiple="multiple"' if type == 'select2' }}>
+      <select name="{{ name }}{{ '[]' if multiple }}" id="input-{{ name }}" class="custom-select {{ 'select2' if type == 'select2' }}" {{ 'multiple="multiple"' if multiple }}>
         <option>{{ 'select...' if type != 'select2' }}</option>
         {% if multiple %}
           {% for o in options %}
@@ -55,6 +55,10 @@
     {% else %}
       <label for="input-{{ name }}">{{ label }}</label>
       <input {{ inputTag(name, required, type, classlist, invalid, form, styles, attrs) }}/>
+    {% endif %}
+
+    {% if message %}
+      <small class="form-text text-muted">{{ message }}</small>
     {% endif %}
 
     {% if invalid %}
