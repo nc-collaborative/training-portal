@@ -1,18 +1,23 @@
 import Router from 'koa-router';
 import { getRepository } from 'typeorm';
-import User from '../../models/User';
+import User from 'models/User';
 
 const Users = getRepository(User);
 
 const router = new Router();
 
 router.get('/admin/learners', async ctx => {
-  // TODO: better query
-  const users = await Users.find({ relations: ['attempts'] });
+  const users = await Users.createQueryBuilder('user')
+    .innerJoinAndSelect('user.attempts', 'attempt')
+    .orderBy('attempt.updatedOn', 'DESC')
+    .getMany();
 
-  const learners = users.filter(u => u.attempts.length);
+  const userEntries = users.map(u => ({
+    ...u,
+    lastTrainingDate: u.attempts[0].updatedOn,
+  }));
 
-  await ctx.render('admin/learners/learners', { users: learners });
+  await ctx.render('admin/learners/learners', { users: userEntries });
 });
 
 export default router;

@@ -1,6 +1,5 @@
 {% extends '_template.njk' %}
 
-{# {% from 'macros/input.njk' import input %} #}
 {% from 'macros/breadcrumb.njk' import breadcrumb %}
 
 {% block head %}
@@ -16,7 +15,7 @@
 
 <table id="learner-table" class="table table-sm">
   <thead>
-    <tr><th>Name</th><th>County</th><th>Completed Trainings</th><th>Last Training Date</th></tr>
+    <tr><th>Name</th><th>County</th><th>Training Attempts</th><th>Last Training Date</th></tr>
   </thead>
   <tbody>
   {% for u in users %}

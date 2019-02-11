@@ -20,19 +20,25 @@
 
 <h1>{{ user.firstName }} {{ user.lastName }}</h1>
 
+<p>last logged in: {% if user.lastLoggedIn %}{{ user.lastLoggedIn | date }}{% else %}<em>never</em>{% endif %}</p>
+
 <h2>Profile</h2>
 
 <table id="userinfo" class="table">
-  <tr>
-    <th>county</th>
-    <td>{{ user.county.name }}</td>
-  </tr>
   <tr>
     <th>email</th>
     <td>
       <code>{{ user.email }}</code>
       {% if user.status == 'unverified' %} <span class="badge badge-warning">unverified</span>{% endif %}
     </td>
+  </tr>
+  <tr>
+    <th>county</th>
+    <td>{{ user.county.name | default('<em>not specified</em>' | safe) }}</td>
+  </tr>
+  <tr>
+    <th>gender</th>
+    <td>{{ user.gender | default('<em>not specified</em>' | safe) }}</td>
   </tr>
 </table>
 
@@ -70,7 +76,7 @@
       <tr>
         <td>{{ a.trainingVersion.training.title }}</td>
         <td>{{ a.updatedOn | date }}</td>
-        <td>{{ a.grade | default('n/a') }}</td>
+        <td>{{ a.grade | default('&ndash;' | safe, true) }}</td>
         <td><a href="/admin/attempts/{{ a.id }}">review</a></td>
       </tr>
     {% endfor %}
