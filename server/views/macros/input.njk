@@ -57,6 +57,10 @@
       <input {{ inputTag(name, required, type, classlist, invalid, form, styles, attrs) }}/>
     {% endif %}
 
+    {% if required %}
+      <small class="form-text text-info">required</small>
+    {% endif %}
+
     {% if message %}
       <small class="form-text text-muted">{{ message }}</small>
     {% endif %}
