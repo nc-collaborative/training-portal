@@ -17,12 +17,14 @@
   <p class="lead">attempt #&thinsp;{{ attemptNo }} of {{ attempts.length }}</p>
   <p><i data-feather="calendar"></i> Taken at {{ attempt.createdOn | date }}</p>
 
-  <p class="display-4">Grade: {{ attempt.grade }} <small>&nbsp;%</small></p>
+  {% if training.isGraded %}
+    <p class="display-4">Grade: {{ attempt.grade }} <small>&nbsp;%</small></p>
 
-  {% if attempt.grade >= training.passPercent %}
-    <p><span class="badge badge-success">PASS</span></p>
-  {% else %}
-    <p><span class="badge badge-secondary">NOT PASSING</span></p>
+    {% if attempt.grade >= training.passPercent %}
+      <p><span class="badge badge-success">PASS</span></p>
+    {% else %}
+      <p><span class="badge badge-secondary">NOT PASSING</span></p>
+    {% endif %}
   {% endif %}
 
   <p class="alert alert-info">A copy of the training with your recorded answers is provided below for your

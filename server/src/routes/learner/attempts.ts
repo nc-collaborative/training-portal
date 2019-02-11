@@ -1,61 +1,89 @@
 import Router from 'koa-router';
-import { createQueryBuilder, getRepository } from 'typeorm';
-import Training from '../../models/Training';
-import TrainingAttempt, {
-  TrainingAttemptStatus,
-} from '../../models/TrainingAttempt';
-import TrainingVersion from '../../models/TrainingVersion';
-import User from '../../models/User';
+import { getRepository } from 'typeorm';
+import { BadRequest as BadRequestError } from 'http-errors';
+
+import Training, { TrainingStatus } from 'models/Training';
+import TrainingAttempt, { TrainingAttemptStatus } from 'models/TrainingAttempt';
+import TrainingVersion, { TrainingVersionStatus } from 'models/TrainingVersion';
+
+import { assertRole } from '../../authn';
 
 const router = new Router();
 
 const Trainings = getRepository(Training);
+const TrainingVersions = getRepository(TrainingVersion);
 const TrainingAttempts = getRepository(TrainingAttempt);
 
-// TODO: extract common route prefix, nested entity fetching / verifying
+router.use(async (ctx, next) => {
+  assertRole(ctx);
+  return next();
+});
+
+router.param('tid', async (id, ctx, next) => {
+  const training = await Trainings.findOne(id);
+  if (!training) throw ctx.throw(404);
+  ctx.state.training = training;
+  return next();
+});
+
+router.param('vid', async (id, ctx, next) => {
+  const version = await TrainingVersions.findOne(id);
+  if (!version) throw ctx.throw(404);
+  ctx.state.version = version;
+  return next();
+});
+
+router.param('aid', async (id, ctx, next) => {
+  const attempt = await TrainingAttempts.findOne(id);
+  if (!attempt) throw ctx.throw(404);
+  ctx.state.attempt = attempt;
+  return next();
+});
 
 router.post('/learner/trainings/:tid/versions/:vid/attempt', async ctx => {
-  // TODO: make sure allowed to submit attempt for this training + version
+  const { training, version, authUser } = ctx.state;
 
-  const attempt = new TrainingAttempt();
-  attempt.answer = ctx.request.body;
-  attempt.user = { id: ctx.state.authUser.id } as any;
-  attempt.trainingVersion = { id: parseInt(ctx.params.vid, 10) } as any;
-  attempt.status = TrainingAttemptStatus.Complete;
+  // Make sure the specified training is accepting new attempts
+  if (
+    training.status != TrainingStatus.Active ||
+    version.status != TrainingVersionStatus.Active
+  ) {
+    throw new BadRequestError(
+      'The training is no longer accepting new attempts.',
+    );
+  }
 
-  const { id } = await TrainingAttempts.save(attempt);
-  const savedAttempt = await TrainingAttempts.findOne(id);
-  savedAttempt!.calculateGrade();
-  await TrainingAttempts.save(savedAttempt!);
-  ctx.response.body = savedAttempt;
+  const attempt = TrainingAttempts.create({
+    user: authUser,
+    trainingVersion: version,
+    answer: ctx.request.body,
+    status: TrainingAttemptStatus.Complete,
+  });
+
+  attempt.calculateGrade();
+
+  await TrainingAttempts.save(attempt);
+
+  ctx.response.body = attempt;
 });
 
 router.get('/trainings/:tid/versions/:vid/attempts/:aid', async ctx => {
-  const { tid, vid, aid } = ctx.params;
-  const { authUser } = ctx.state;
+  const { version, attempt, authUser } = ctx.state;
 
-  const attempts = await TrainingAttempts.find({
+  const allUserAttempts = await TrainingAttempts.find({
     where: {
       user: { id: authUser.id },
-      trainingVersion: { id: vid, training: { id: tid } },
-      status: TrainingAttemptStatus.Complete,
-    },
-    order: {
-      createdOn: 'ASC',
+      trainingVersion: { id: version.id },
     },
   });
 
-  const attempt = attempts.find(a => a.id == aid);
-
-  if (!attempt) throw ctx.throw(404);
-
-  const attemptNo = attempts.indexOf(attempt) + 1;
+  const attemptNo = allUserAttempts.findIndex(a => a.id == attempt.id) + 1;
 
   await ctx.render('learner/view-attempt', {
     training: attempt.trainingVersion.training,
     version: attempt.trainingVersion,
     attempt,
-    attempts,
+    attempts: allUserAttempts,
     attemptNo,
   });
 });
