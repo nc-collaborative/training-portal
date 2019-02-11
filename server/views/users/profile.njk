@@ -8,39 +8,31 @@
 
 <h1>{{ u.firstName }} {{ u.lastName }}</h1>
 
-<dl>
-  <dt>email</dt>
-  <dd><code>{{ u.email }}</code></dd>
-</dl>
-
-<dl>
-  <dt>County</dt>
-  <dd>{{ u.county.name }}</dd>
-
-  {% if u.gender %}
-  <dt>Gender</dt>
-  <dd>{{ u.gender }}</dd>
-  {% endif %}
-</dl>
+<table class="table" style="width: auto;">
+  <tr>
+    <th>First Name</th>
+    <td>{{ u.firstName }}</td>
+  </tr>
+  <tr>
+    <th>Last Name</th>
+    <td>{{ u.lastName }}</td>
+  </tr>
+  <tr>
+    <th>Email</th>
+    <td><code>{{ u.email }}</code></td>
+  </tr>
+  <tr>
+    <th>NC County</th>
+    <td>{{ u.county.name | default('<em>not specified</em>' | safe) }}</td>
+  </tr>
+  <tr>
+    <th>Gender</th>
+    <td>{{ u.gender | default('<em>not specified</em>' | safe) }}</td>
+  </tr>
+</table>
 
 <div class="py-3">
-  <a href="/profile/edit" class="btn btn-primary">Edit</a>
-</div>
-
-<hr/>
-
-<h2>My Trainings</h2>
-
-<div class="trainings-container card">
-  <div class="card-body">
-  {% if not trainings.length %}
-    <p>You have not yet completed any trainings.</p>
-  {% endif %}
-
-  {% for t in trainings %}
-    <p><a href="/trainings/{{ t.id }}">{{ t.title }}</a> ({{ t.lastDate | date }})</p>
-  {% endfor %}
-  </div>
+  <a href="/profile/edit" class="btn btn-primary">Edit Profile</a>
 </div>
 
 </div>

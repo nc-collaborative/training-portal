@@ -10,7 +10,7 @@
 {% block body %}
 <div class="container"><div class="row"><div class="col-sm-12 col-md-6">
 
-<p class="lead"><i data-feather="user"></i> Edit Profile</p>
+<p class="lead"><i data-feather="user"></i> Edit My Profile</p>
 
 {% if error or form.errors.length %}
   <div class="alert alert-danger">
@@ -27,7 +27,7 @@
   {{ input(name='lastName', label='Last Name', required=true, form=form, attrs={maxlength: 255}) }}
   {{ input(name='email', label='Email', type='email', required=true, form=form, attrs={maxlength: 255}) }}
   {{ input(name='countyId', label='NC County', type='select2', options=counties, form=form) }}
-  {{ input(name='gender', label='Gender', message='optional', form=form) }}
+  {{ input(name='gender', label='Gender', form=form) }}
 
   <div class="d-flex justify-content-end">
     <a href="/profile" class="btn btn-secondary mx-2">Cancel</a>

@@ -52,6 +52,9 @@
 
     {% if authUser %}
       <div class="sidebar-heading">{{ authUser.firstName }}</div>
+      {% if 'learner' in authUser.userRoles %}
+        <li class="nav-item"><a class="nav-link" href="/learner/dashboard"><i data-feather="clock"></i> Learning History</a></li>
+      {% endif %}
       <li class="nav-item"><a class="nav-link" href="/profile"><i data-feather="user"></i> My Profile</a></li>
       <li class="nav-item"><a class="nav-link" href="#" onclick="promptLogOut()"><i data-feather="log-out"></i> Log Out</a></li>
     {% else %}
