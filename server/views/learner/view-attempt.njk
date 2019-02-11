@@ -4,9 +4,11 @@
   {% include 'partials/_surveyTakerAssets.njk' %}
 
   <script>
-    window.training = {{ training | dump | safe }};
-    window.version = {{ version | dump | safe }};
-    window.attempt = {{ attempt | dump | safe }};
+    window.__hhState = {
+      training: {{ training | dump | safe }},
+      version: {{ version | dump | safe }},
+      attempt: {{ attempt | dump | safe }},
+    };
   </script>
 {% endblock %}
 
@@ -30,21 +32,9 @@
   <p class="alert alert-info">A copy of the training with your recorded answers is provided below for your
   reference.</p>
 
-  <div id="survey" class="survey-taker-container"></div>
+  <div id="survey" class="survey-taker-container attempt-viewer-container"></div>
 
 </div>
 
-<script>
-
-  window.addEventListener('DOMContentLoaded', () => {
-    let survey = new Survey.Model(version.content);
-
-    survey.mode = 'display';
-    survey.data = attempt.answer;
-
-    $('#survey').Survey({ model: survey });
-  });
-
-</script>
-
+<script defer src="/scripts/learner/view-attempt.js"></script>
 {% endblock body %}

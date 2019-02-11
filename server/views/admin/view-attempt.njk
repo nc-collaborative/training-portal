@@ -5,8 +5,9 @@
 
   <script>
     window.__hhState = {
+      attempt: {{ attempt | dump | safe }},
+      training: {{ training | dump | safe }},
       version: {{ version | dump | safe }},
-      attempt: {{ attempt | dump | safe }}
     };
   </script>
 {% endblock %}
@@ -30,10 +31,10 @@
   <p class="alert alert-info">A copy of the training with recorded answers is provided below for your
   reference.</p>
 
-  <div id="survey-container" class="hh-survey-container"></div>
+  <div id="survey" class="survey-taker-container attempt-viewer-container"></div>
 
 </div>
 
-<script src="/scripts/admin/trainings/view-attempt.js"></script>
+<script src="/scripts/learner/view-attempt.js"></script>
 
 {% endblock body %}

@@ -38,4 +38,80 @@
       font-size: 1rem !important;
     }
   }
+
+  // Attempt viewer styles
+  &.attempt-viewer-container {
+    @mixin right {
+      &::after {
+        background-color: hsl(120, 100%, 90%);
+        display: inline-block;
+        color: green;
+        margin-left: 1rem;
+        padding: 0 0.25rem;
+        content: '✔︎ correct';
+        border-radius: 0.5rem;
+      }
+    }
+    @mixin wrong {
+      &::after {
+        background-color: hsl(0, 100%, 96%);
+        display: inline-block;
+        color: red;
+        margin-left: 1rem;
+        padding: 0 0.25rem;
+        content: '✘ incorrect';
+        border-radius: 0.5rem;
+      }
+    }
+
+    .radiogroup {
+      &.correct {
+        .checked {
+          @include right;
+        }
+      }
+
+      &.incorrect {
+        .checked {
+          @include wrong;
+        }
+      }
+    }
+
+    .multi-select {
+      .checked {
+        &.correct {
+          @include right;
+        }
+
+        &.incorrect {
+          @include wrong;
+        }
+      }
+
+      .correct:not(.checked) {
+        @include wrong;
+      }
+    }
+
+    .dropdown {
+      &.correct .sv_q_dropdown_control {
+        @include right;
+      }
+
+      &.incorrect .sv_q_dropdown_control {
+        @include wrong;
+      }
+    }
+
+    .matrix td {
+      &.correct label.sv_q_m_label {
+        @include right;
+      }
+
+      &.incorrect label.sv_q_m_label {
+        @include wrong;
+      }
+    }
+  } // .attempt-viewer-container
 }
