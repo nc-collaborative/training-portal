@@ -97,6 +97,22 @@ const mailer = {
       vars: { user, isNewAccount: opts.isNewAccount, newPass: opts.newPass },
     });
   },
+  async sendPasswordReset({ user }: { user: User }) {
+    return mailer.send({
+      to: user.email,
+      subject: 'Password reset requested',
+      template: 'password-reset.njk',
+      vars: { user },
+    });
+  },
+  async sendPasswordChanged({ user }: { user: User }) {
+    return mailer.send({
+      to: user.email,
+      subject: 'Password changed',
+      template: 'password-changed.njk',
+      vars: { user },
+    });
+  },
 };
 
 interface MailMessage {

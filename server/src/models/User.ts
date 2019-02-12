@@ -48,6 +48,9 @@ export default class User {
   @Column('varchar')
   phash: string;
 
+  @Column('varchar', { nullable: true })
+  passwordResetToken: string | null;
+
   @ManyToOne(type => County, { eager: true, nullable: true })
   county: County;
 
@@ -60,9 +63,6 @@ export default class User {
 
   @Column('varchar', { nullable: true })
   gender: string;
-
-  @Column()
-  needsPasswordReset: boolean;
 
   @OneToMany(type => TrainingAttempt, ta => ta.user, { eager: false })
   attempts: TrainingAttempt[];
@@ -92,6 +92,10 @@ export default class User {
   @BeforeInsert()
   genVerifyCode() {
     this.verifyCode = randToken(32); // just a random string
+  }
+
+  async setPassword(pass) {
+    this.phash = await bcrypt.hash(pass, config.bcryptHashRounds);
   }
 
   static async generateNewPass() {
