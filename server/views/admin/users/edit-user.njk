@@ -44,8 +44,10 @@
   {{ input(name='lastName', label='Last Name', required=true, form=form, attrs={maxlength: 255}) }}
   {{ input(name='email', label='Email', type='email', required=true, form=form, attrs={maxlength: 255}) }}
   {{ input(name='countyId', label='County', type='select2', options=counties, form=form) }}
-  {{ input(name='gender', label='Gender (optional)', form=form) }}
-  {{ input(name='userRoleIds', label='User Roles', type='select2', options=userRoles, optionkey='name', multiple=true, form=form) }}
+  {{ input(name='gender', label='Gender', form=form) }}
+  {% if not isNew %}
+    {{ input(name='userRoleIds', label='User Roles', type='select2', options=userRoles, optionkey='name', multiple=true, form=form) }}
+  {% endif %}
 
   <div class="d-flex justify-content-end">
     <a href="/admin/users/{{ form.id if not 'new' }}" class="btn btn-secondary m-2">Cancel</a>
