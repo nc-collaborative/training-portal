@@ -16,6 +16,7 @@ import config from './server.config.json';
 import authMiddleware from './middleware/auth';
 import errorMiddleware from './middleware/errors';
 import nunjucksMiddlware from './middleware/nunjucks';
+import SystemSettings from 'models/SystemSettings';
 
 const app = new Koa();
 app.proxy = true;
@@ -35,6 +36,26 @@ app.use(errorMiddleware);
   const db = await database;
 
   const router = new Router();
+
+  app.use(async (ctx, next) => {
+    const {
+      state: { authUser },
+      request,
+    } = ctx;
+
+    const settings = await SystemSettings.getSettings();
+    ctx.state.system = settings;
+
+    if (settings.maintenance) {
+      if (!authUser || !authUser.userRoles.includes('admin')) {
+        if (request.URL.pathname != '/login') {
+          return ctx.redirect('/static/maintenance.html');
+        }
+      }
+    }
+
+    return next();
+  });
 
   router.get('/', async ctx => {
     const { authUser } = ctx.state;

@@ -1,0 +1,21 @@
+{% extends '_template.njk' %}
+
+{% from 'macros/input.njk' import input %}
+
+{% block body %}
+<div class="container">
+
+<h1>System Settings</h1>
+
+{% if saved %}
+  <div class="alert alert-success">Settings saved</div>
+{% endif %}
+
+<form action="/admin/system-settings" method="post">
+  {{ input(name='maintenance', type='checkbox', label='Maintenance mode', form=form )}}
+  {{ input(name='contactEmail', type='email', label='Contact Email', form=form ) }}
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+</div>
+{% endblock %}

@@ -18,3 +18,7 @@ export const password = Joi.object().keys({
     () => 'passwords do not match',
   ),
 });
+
+export const checkbox = Joi.boolean()
+  .truthy('')
+  .default(false);

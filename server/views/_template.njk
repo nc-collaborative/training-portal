@@ -35,6 +35,12 @@
     </div>
   {% endif %}
 
+  {% if system.maintenance %}
+    <div id="staging-warning" class="alert alert-warning">
+     <i data-feather="alert-triangle"></i>&emsp;system is in maintenance mode
+    </div>
+  {% endif %}
+
   {% if flash.length %}
     <div id="flash-container">
       {% for f in flash %}
