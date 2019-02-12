@@ -68,27 +68,3 @@
   <img src="/static/img/hands-logo.png" style="height: 1.5rem; width: auto;"/>
   <button class="btn" aria-label="toggle menu" onclick="toggleNavMenu()"><i data-feather="menu"></i> Menu</button>
 </nav>
-
-<script>
-  function promptLogOut() {
-    swal({
-      text: 'Are you sure you want to log out?',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Log out now',
-      confirmButtonColor: 'red',
-      cancelButtonText: 'Stay logged in',
-      reverseButtons: true,
-      focusCancel: true
-    })
-      .then(({dismiss}) => {
-        if(dismiss) return;
-        window.location = '/logout';
-      });
-  }
-
-  function toggleNavMenu() {
-    var menu = document.getElementById('nav-menu');
-    menu.classList.toggle('open');
-  }
-</script>
