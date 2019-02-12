@@ -13,6 +13,7 @@ const router = new Router();
 
 router.use(async (ctx, next) => {
   if (ctx.state.authUser) return ctx.redirect('/');
+  return next();
 });
 
 router.get('/password-reset', async ctx => {
