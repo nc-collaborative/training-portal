@@ -62,6 +62,12 @@ export async function authMiddleware(ctx: Context, next) {
     return next();
   }
 
+  // CSRF mitigation: authed requests should be coming from app domain
+  // note: protocol will be http (not s) bc proxied behind tls terminator
+  if (ctx.origin && ctx.origin !== 'http://' + config.host) {
+    throw new UnauthorizedError();
+  }
+
   try {
     const token = jwt.verify(rawJwt, config.jwtSecret) as IjwtPayload;
     const user = await getRepository(User).findOneOrFail(Number(token.uid));
