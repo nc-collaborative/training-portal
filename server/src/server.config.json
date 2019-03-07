@@ -9,6 +9,7 @@
     "username": "root",
     "password": "root"
   },
+  "serveStatic": false,
   "jwtSecret": "thecollab",
   "bcryptHashRounds": 10,
   "defaultDateFormat": "h:mma MMM. Do YYYY",

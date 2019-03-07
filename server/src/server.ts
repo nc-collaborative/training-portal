@@ -5,6 +5,7 @@ import Koa from 'koa';
 import bodyParser from 'koa-body';
 import helmet from 'koa-helmet';
 import mount from 'koa-mount';
+import path from 'path';
 import Router from 'koa-router';
 import serve from 'koa-static';
 
@@ -31,6 +32,16 @@ app.use(authMiddleware);
 
 // Universal error handling
 app.use(errorMiddleware);
+
+if (config.serveStatic) {
+  app.use(mount('/static', serve(path.join(__dirname, '..', '..', 'static'))));
+  app.use(
+    mount(
+      '/scripts',
+      serve(path.join(__dirname, '..', '..', 'browser', 'dist')),
+    ),
+  );
+}
 
 (async () => {
   const db = await database;
