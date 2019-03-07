@@ -1,6 +1,10 @@
 /// <reference types="Cypress" />
 
 describe('Login Flow', () => {
+  before(() => {
+    cy.task('db:init');
+  });
+
   it('Correctly prompts on invalid credentials', () => {
     cy.visit('/login');
 

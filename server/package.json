@@ -49,7 +49,7 @@
     "build": "tsc --outDir ./dist",
     "db-check-schema": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm schema:log",
     "db-update-schema": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm schema:sync",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cypress run"
   },
   "_moduleAliases": {
     "models": "./dist/models",
